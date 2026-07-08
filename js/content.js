@@ -350,7 +350,7 @@ window.BR = window.BR || {};
         id: 'en.gm.reasons', niche: 'gaming', title: '5 reasons to rent a Prime account instead of buying one',
         cover: { title: '5 reasons renting beats buying', badge: 'SAVE THIS' },
         slides: [
-          { title: 'Way cheaper per session', body: 'A full account costs real money upfront. Rent {one} for exactly the hours you\'ll actually play.' },
+          { title: 'Way cheaper per session', body: 'A full account costs real money upfront. Rent a {one} for exactly the hours you\'ll actually play.' },
           { title: 'Zero ban risk on your money', body: 'If anything happens to the account, it\'s not your investment on the line. Play stress-free.' },
           { title: 'Try before you commit', body: 'Not sure Prime is worth it long-term? Rent a few sessions first and decide for yourself.' },
           { title: 'Instant access, no grinding', body: 'Skip the trust factor grind and rank resets. Jump straight into Prime matchmaking.' },

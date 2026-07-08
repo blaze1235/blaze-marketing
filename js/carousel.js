@@ -6,7 +6,7 @@ window.BR = window.BR || {};
 
 (function () {
   const $ = id => document.getElementById(id);
-  const STYLES = [null, 'gradient', 'dark', 'light', 'solid'];
+  const STYLES = [null, 'esports', 'gradient', 'dark', 'light', 'solid'];
   const W = 1080, H = 1350;
 
   const cur = {
@@ -98,7 +98,7 @@ window.BR = window.BR || {};
   }
 
   async function generateAI() {
-    if (!BR.ai.hasKey()) { BR.ui.toast('Add your Claude API key in Brand & Taste first ✨'); return; }
+    if (!BR.ai.hasKey()) { BR.ui.toast('Add a free Groq or Claude API key in Brand & Taste first ✨'); return; }
     const topic = $('carAITopic').value.trim();
     if (!topic) { BR.ui.toast('Type a topic for the AI ✏️'); return; }
     const btn = $('carGenerate');

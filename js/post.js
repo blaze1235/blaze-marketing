@@ -14,7 +14,7 @@ window.BR = window.BR || {};
     announcement: { en: 'NEWS', ru: 'НОВОСТИ', uz: 'YANGILIK' }
   };
   const LAYOUT_OF = { promo: 'promo', showcase: 'promo', tip: 'point', engagement: 'cover', announcement: 'cover' };
-  const STYLES = [null, 'gradient', 'dark', 'light', 'solid']; // null = brand default
+  const STYLES = [null, 'esports', 'gradient', 'dark', 'light', 'solid']; // null = brand default
 
   const cur = {
     type: 'promo', tone: 'bold', lang: 'en', size: '1080x1350',
@@ -113,7 +113,7 @@ window.BR = window.BR || {};
   }
 
   async function generateAI() {
-    if (!BR.ai.hasKey()) { BR.ui.toast('Add your Claude API key in Brand & Taste first ✨'); return; }
+    if (!BR.ai.hasKey()) { BR.ui.toast('Add a free Groq or Claude API key in Brand & Taste first ✨'); return; }
     const btn = $('postAI');
     btn.disabled = true; btn.textContent = '✨ Thinking…';
     try {

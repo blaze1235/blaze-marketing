@@ -6,8 +6,10 @@ window.BR = window.BR || {};
 
 (function () {
   const LS_KEY = 'blazerent-studio-v1';
+  const SCHEMA_VERSION = 2; // bump when defaults change in a way old saves must adopt
 
   const DEFAULTS = {
+    schemaVersion: SCHEMA_VERSION,
     onboarded: false,
     brand: {
       name: 'BlazeRent',
@@ -24,7 +26,7 @@ window.BR = window.BR || {};
       },
       logo: null,              // dataURL
       font: 'bold',            // bold | clean | serif | mono
-      designStyle: 'gradient', // gradient | dark | light | solid
+      designStyle: 'esports',  // esports | gradient | dark | light | solid
       lang: 'en',              // en | ru | uz
       tone: 'bold',            // bold | friendly | luxury | playful
       emoji: 2,                // 0..3
@@ -37,7 +39,7 @@ window.BR = window.BR || {};
     },
     library: [],               // {id, kind, title, caption, data, createdAt}
     planner: [],               // {id, day, type, title, status}
-    settings: { apiKey: '' },
+    settings: { apiKey: '', groqKey: '', aiProvider: 'groq' },
     lastUsed: {}               // per-studio UI memory (type, tone, lang...)
   };
 
@@ -49,7 +51,20 @@ window.BR = window.BR || {};
       if (!raw) return structuredClone(DEFAULTS);
       const parsed = JSON.parse(raw);
       // deep-merge onto defaults so new fields appear after upgrades
-      return merge(structuredClone(DEFAULTS), parsed);
+      const merged = merge(structuredClone(DEFAULTS), parsed);
+      if (!parsed.schemaVersion || parsed.schemaVersion < SCHEMA_VERSION) {
+        // One-time migration: saves made before the CS2/navy rebrand baked in the
+        // old car-rental niche and orange palette. Force the new brand defaults
+        // so the rebrand actually takes effect instead of being silently overridden.
+        merged.brand.niche = DEFAULTS.brand.niche;
+        merged.brand.colors = structuredClone(DEFAULTS.brand.colors);
+        merged.brand.designStyle = DEFAULTS.brand.designStyle;
+        merged.schemaVersion = SCHEMA_VERSION;
+        localStorage.setItem(LS_KEY, JSON.stringify(merged)); // persist immediately, don't wait for the next save()
+        return merged;
+      }
+      merged.schemaVersion = SCHEMA_VERSION;
+      return merged;
     } catch (e) {
       console.warn('store: failed to load, using defaults', e);
       return structuredClone(DEFAULTS);

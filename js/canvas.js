@@ -41,6 +41,8 @@ window.BR = window.BR || {};
     const c = b.colors;
     const style = styleOverride || b.designStyle;
     switch (style) {
+      case 'esports':
+        return { style, bg: [shade(c.dark, -0.55), '#000000'], text: '#ffffff', sub: 'rgba(214,222,255,0.7)', accent: c.primary, accent2: shade(c.primary, 0.3), chip: c.primary };
       case 'dark':
         return { style, bg: [c.dark, shade(c.dark, -0.4)], text: '#ffffff', sub: 'rgba(255,255,255,0.72)', accent: c.primary, accent2: c.accent, chip: c.primary };
       case 'light':
@@ -123,6 +125,16 @@ window.BR = window.BR || {};
     ctx.closePath();
   }
 
+  // angular HUD-style tag shape (parallelogram), used by the esports style
+  function parallelogram(ctx, x, y, w, h, skew) {
+    ctx.beginPath();
+    ctx.moveTo(x + skew, y);
+    ctx.lineTo(x + w, y);
+    ctx.lineTo(x + w - skew, y + h);
+    ctx.lineTo(x, y + h);
+    ctx.closePath();
+  }
+
   /* ---------- background + decor ---------- */
   function fillBg(ctx, w, h, th) {
     const g = ctx.createLinearGradient(0, 0, w, h);
@@ -130,6 +142,11 @@ window.BR = window.BR || {};
     g.addColorStop(1, th.bg[1]);
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, w, h);
+
+    if (th.style === 'esports') {
+      drawEsportsDecor(ctx, w, h, th);
+      return;
+    }
 
     // decorative glow blobs
     ctx.save();
@@ -143,6 +160,68 @@ window.BR = window.BR || {};
     };
     blob(w * 0.9, h * 0.08, w * 0.5, th.accent);
     blob(w * 0.05, h * 0.95, w * 0.55, th.accent2);
+    ctx.restore();
+  }
+
+  // gaming HUD backdrop: faint grid + a diagonal glow beam + edge vignette
+  function drawEsportsDecor(ctx, w, h, th) {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.lineWidth = 1;
+    const step = w * 0.062;
+    for (let x = 0; x <= w; x += step) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+    }
+    for (let y = 0; y <= h; y += step) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+    }
+
+    ctx.save();
+    ctx.translate(w * 0.8, h * -0.02);
+    ctx.rotate(-0.42);
+    const beamW = w * 1.8, beamH = h * 0.5;
+    const beam = ctx.createLinearGradient(0, 0, 0, beamH);
+    beam.addColorStop(0, rgba(th.accent, 0.4));
+    beam.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = beam;
+    ctx.fillRect(-beamW / 2, -beamH * 0.15, beamW, beamH);
+    ctx.restore();
+
+    const vg = ctx.createRadialGradient(w / 2, h * 0.46, h * 0.32, w / 2, h * 0.46, h * 0.78);
+    vg.addColorStop(0, 'rgba(0,0,0,0)');
+    vg.addColorStop(1, 'rgba(0,0,0,0.55)');
+    ctx.fillStyle = vg;
+    ctx.fillRect(0, 0, w, h);
+    ctx.restore();
+  }
+
+  // small HUD corner brackets, drawn over the finished slide for the esports style
+  function drawHudCorners(ctx, w, h, th) {
+    const len = w * 0.048, pad = w * 0.045, lw = Math.max(2, w * 0.0035);
+    ctx.save();
+    ctx.strokeStyle = th.accent;
+    ctx.lineWidth = lw;
+    ctx.shadowColor = th.accent;
+    ctx.shadowBlur = w * 0.018;
+    ctx.lineCap = 'square';
+    [[pad, pad, 1, 1], [w - pad, pad, -1, 1], [pad, h - pad, 1, -1], [w - pad, h - pad, -1, -1]]
+      .forEach(([x, y, dx, dy]) => {
+        ctx.beginPath();
+        ctx.moveTo(x, y + len * dy);
+        ctx.lineTo(x, y);
+        ctx.lineTo(x + len * dx, y);
+        ctx.stroke();
+      });
+    ctx.restore();
+  }
+
+  // wraps a draw callback with a colored glow — used for esports-style headline text
+  function withGlow(ctx, th, w, fn) {
+    if (th.style !== 'esports') return fn();
+    ctx.save();
+    ctx.shadowColor = th.accent;
+    ctx.shadowBlur = w * 0.022;
+    fn();
     ctx.restore();
   }
 
@@ -207,6 +286,7 @@ window.BR = window.BR || {};
       ctx.fillText((slide.swipeText || 'swipe') + '  ⟶', w - m, h - m * 0.75);
     }
     ctx.restore();
+    if (th.style === 'esports') drawHudCorners(ctx, w, h, th);
   }
 
   function drawBadge(ctx, text, x, y, th, w) {
@@ -216,15 +296,35 @@ window.BR = window.BR || {};
     ctx.font = `800 ${size}px ${f.body}`;
     const tw = ctx.measureText(text).width;
     const padX = size * 1.1, padY = size * 0.72;
+    const boxW = tw + padX * 2, boxH = size + padY * 2;
+
+    if (th.style === 'esports') {
+      const skew = boxH * 0.4;
+      ctx.save();
+      ctx.fillStyle = th.chip;
+      ctx.shadowColor = th.chip;
+      ctx.shadowBlur = w * 0.014;
+      parallelogram(ctx, x, y, boxW + skew, boxH, skew);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = isLight(th.chip) ? '#0a0f24' : '#ffffff';
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'left';
+      ctx.fillText(text, x + padX + skew * 0.55, y + boxH / 2 + size * 0.06);
+      ctx.textBaseline = 'alphabetic';
+      ctx.restore();
+      return y + boxH;
+    }
+
     ctx.fillStyle = th.chip;
-    roundRect(ctx, x, y, tw + padX * 2, size + padY * 2, (size + padY * 2) / 2);
+    roundRect(ctx, x, y, boxW, boxH, boxH / 2);
     ctx.fill();
     ctx.fillStyle = isLight(th.chip.startsWith('#') ? th.chip : '#000000') ? '#111111' : '#ffffff';
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'left';
-    ctx.fillText(text, x + padX, y + (size + padY * 2) / 2 + size * 0.06);
+    ctx.fillText(text, x + padX, y + boxH / 2 + size * 0.06);
     ctx.textBaseline = 'alphabetic';
-    return y + size + padY * 2;
+    return y + boxH;
   }
 
   /* =====================================================================
@@ -287,7 +387,7 @@ window.BR = window.BR || {};
     ctx.fillStyle = th.text;
     ctx.textAlign = 'left';
     ctx.font = `${f.headWeight} ${fit.size}px ${f.head}`;
-    y = drawLines(ctx, fit.lines, m, y + fit.size, fit.size * 1.12);
+    withGlow(ctx, th, w, () => { y = drawLines(ctx, fit.lines, m, y + fit.size, fit.size * 1.12); });
     if (s.body) {
       ctx.fillStyle = th.sub;
       const bf = fitText(ctx, s.body, { font: f.body, weight: f.bodyWeight, maxWidth: maxW * 0.9, maxSize: w * 0.034, minSize: w * 0.024, maxLines: 4 });
@@ -295,16 +395,25 @@ window.BR = window.BR || {};
       drawLines(ctx, bf.lines, m, y + h * 0.03, bf.size * 1.45);
     }
     // accent underline
+    ctx.save();
     ctx.fillStyle = th.accent;
-    roundRect(ctx, m, y + h * 0.012, w * 0.16, w * 0.012, w * 0.006);
+    if (th.style === 'esports') {
+      ctx.shadowColor = th.accent;
+      ctx.shadowBlur = w * 0.016;
+      parallelogram(ctx, m, y + h * 0.012, w * 0.16, w * 0.012, w * 0.006);
+    } else {
+      roundRect(ctx, m, y + h * 0.012, w * 0.16, w * 0.012, w * 0.006);
+    }
     ctx.fill();
+    ctx.restore();
   }
 
   function renderPoint(ctx, s, th, f, w, h, m, maxW, hasPhoto) {
     // ghost number
     if (s.badge && !hasPhoto) {
       ctx.save();
-      ctx.fillStyle = rgba(BR.store.brand.colors.accent, th.style === 'light' ? 0.18 : 0.22);
+      const alpha = th.style === 'light' ? 0.18 : th.style === 'esports' ? 0.28 : 0.22;
+      ctx.fillStyle = rgba(th.accent, alpha);
       ctx.font = `900 ${w * 0.42}px ${f.head}`;
       ctx.textAlign = 'right';
       ctx.fillText(s.badge, w - m * 0.6, h * 0.36);
@@ -316,7 +425,7 @@ window.BR = window.BR || {};
     ctx.fillStyle = th.text;
     ctx.textAlign = 'left';
     ctx.font = `${f.headWeight} ${fit.size}px ${f.head}`;
-    y = drawLines(ctx, fit.lines, m, y + fit.size, fit.size * 1.15);
+    withGlow(ctx, th, w, () => { y = drawLines(ctx, fit.lines, m, y + fit.size, fit.size * 1.15); });
     if (s.body) {
       ctx.fillStyle = th.sub;
       const bf = fitText(ctx, s.body, { font: f.body, weight: f.bodyWeight, maxWidth: maxW * 0.94, maxSize: w * 0.036, minSize: w * 0.026, maxLines: 6 });
@@ -331,7 +440,7 @@ window.BR = window.BR || {};
     const fit = fitText(ctx, s.title, { font: f.head, weight: f.headWeight, maxWidth: maxW, maxSize: w * 0.08, minSize: w * 0.045, maxLines: 3 });
     ctx.fillStyle = th.text;
     ctx.font = `${f.headWeight} ${fit.size}px ${f.head}`;
-    fit.lines.forEach((l, i) => ctx.fillText(l, w / 2, y + i * fit.size * 1.15));
+    withGlow(ctx, th, w, () => fit.lines.forEach((l, i) => ctx.fillText(l, w / 2, y + i * fit.size * 1.15)));
     y += fit.lines.length * fit.size * 1.15 + h * 0.03;
     if (s.body) {
       ctx.fillStyle = th.sub;
@@ -346,12 +455,22 @@ window.BR = window.BR || {};
     ctx.font = `800 ${w * 0.034}px ${f.body}`;
     const tw = ctx.measureText(label).width;
     const pw = tw + w * 0.08, ph = w * 0.085;
+    const px = (w - pw) / 2, py = y + h * 0.035;
+    ctx.save();
     ctx.fillStyle = th.accent;
-    roundRect(ctx, (w - pw) / 2, y + h * 0.035, pw, ph, ph / 2);
+    if (th.style === 'esports') {
+      const skew = ph * 0.32;
+      ctx.shadowColor = th.accent;
+      ctx.shadowBlur = w * 0.018;
+      parallelogram(ctx, px - skew / 2, py, pw + skew, ph, skew);
+    } else {
+      roundRect(ctx, px, py, pw, ph, ph / 2);
+    }
     ctx.fill();
-    ctx.fillStyle = isLight(BR.store.brand.colors.accent) ? '#111111' : '#ffffff';
+    ctx.restore();
+    ctx.fillStyle = isLight(th.style === 'esports' ? th.accent : BR.store.brand.colors.accent) ? '#111111' : '#ffffff';
     ctx.textBaseline = 'middle';
-    ctx.fillText(label, w / 2, y + h * 0.035 + ph / 2 + w * 0.003);
+    ctx.fillText(label, w / 2, py + ph / 2 + w * 0.003);
     ctx.textBaseline = 'alphabetic';
     ctx.textAlign = 'left';
   }
@@ -379,7 +498,7 @@ window.BR = window.BR || {};
     ctx.fillStyle = th.text;
     ctx.textAlign = 'left';
     ctx.font = `${f.headWeight} ${fit.size}px ${f.head}`;
-    y = drawLines(ctx, fit.lines, m, y + fit.size, fit.size * 1.12);
+    withGlow(ctx, th, w, () => { y = drawLines(ctx, fit.lines, m, y + fit.size, fit.size * 1.12); });
     if (s.body) {
       // offer box
       ctx.font = `800 ${w * 0.04}px ${f.head}`;
@@ -387,10 +506,19 @@ window.BR = window.BR || {};
       const boxH = bf.lines.length * bf.size * 1.3 + w * 0.05;
       const boxW = Math.min(maxW, Math.max(...bf.lines.map(l => { ctx.font = `800 ${bf.size}px ${f.head}`; return ctx.measureText(l).width; })) + w * 0.07);
       y += h * 0.035;
+      ctx.save();
       ctx.fillStyle = th.accent;
-      roundRect(ctx, m, y, boxW, boxH, w * 0.02);
+      if (th.style === 'esports') {
+        const skew = boxH * 0.3;
+        ctx.shadowColor = th.accent;
+        ctx.shadowBlur = w * 0.016;
+        parallelogram(ctx, m, y, boxW + skew, boxH, skew);
+      } else {
+        roundRect(ctx, m, y, boxW, boxH, w * 0.02);
+      }
       ctx.fill();
-      ctx.fillStyle = isLight(BR.store.brand.colors.accent) ? '#111111' : '#ffffff';
+      ctx.restore();
+      ctx.fillStyle = isLight(th.style === 'esports' ? th.accent : BR.store.brand.colors.accent) ? '#111111' : '#ffffff';
       ctx.font = `800 ${bf.size}px ${f.head}`;
       bf.lines.forEach((l, i) => ctx.fillText(l, m + w * 0.035, y + w * 0.045 + (i + 0.5) * bf.size * 1.3));
     }
@@ -414,6 +542,7 @@ window.BR = window.BR || {};
   BR.canvas = {
     renderSlide, downloadCanvas, canvasToBlob,
     loadImage, drawPhotoCover, fillBg, theme, fontOf, fitText, wrapLines, roundRect, drawChrome,
+    parallelogram, drawHudCorners, withGlow,
     isLight, rgba, shade
   };
 })();

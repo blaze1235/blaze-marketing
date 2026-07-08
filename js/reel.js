@@ -79,7 +79,7 @@ window.BR = window.BR || {};
   }
 
   async function generateAI() {
-    if (!BR.ai.hasKey()) { BR.ui.toast('Add your Claude API key in Brand & Taste first ✨'); return; }
+    if (!BR.ai.hasKey()) { BR.ui.toast('Add a free Groq or Claude API key in Brand & Taste first ✨'); return; }
     const topic = $('reelAITopic').value.trim();
     if (!topic) { BR.ui.toast('Type a topic for the AI ✏️'); return; }
     const btn = $('reelGenerate');
@@ -346,8 +346,13 @@ window.BR = window.BR || {};
     }
 
     ctx.fillStyle = textCol;
-    ctx.shadowColor = 'rgba(0,0,0,0.45)';
-    ctx.shadowBlur = W * 0.012;
+    if (th.style === 'esports' && !photos[i]) {
+      ctx.shadowColor = th.accent;
+      ctx.shadowBlur = W * 0.024;
+    } else {
+      ctx.shadowColor = 'rgba(0,0,0,0.45)';
+      ctx.shadowBlur = W * 0.012;
+    }
     fit.lines.forEach((l, li) => ctx.fillText(l, W / 2, yBase + rise + li * lineH));
     ctx.shadowBlur = 0;
     ctx.restore();
@@ -372,6 +377,8 @@ window.BR = window.BR || {};
     ctx.fillStyle = photos[i] ? 'rgba(255,255,255,0.85)' : th.sub;
     ctx.font = `800 ${W * 0.03}px ${f.body}`;
     ctx.fillText(b.handle || b.name, W / 2, H - m * 0.8);
+
+    if (th.style === 'esports') BR.canvas.drawHudCorners(ctx, W, H, th);
   }
 
   function saveToLibrary() {

@@ -1,16 +1,24 @@
 /* BlazeRent Studio — ai.js
- * Optional Claude API power-up. When the user pastes an API key in Settings,
- * captions / carousels / reel scripts can be generated on ANY topic.
- * Without a key the template engine (content.js) does everything offline.
+ * Optional AI power-up: Claude (paid, small free trial credit) or Groq
+ * (free tier, no card required). Either unlocks unlimited AI-written
+ * captions/carousels/reel scripts on any topic. Without a key the
+ * template engine (content.js) does everything offline, for free, forever.
  */
 window.BR = window.BR || {};
 
 (function () {
-  const API_URL = 'https://api.anthropic.com/v1/messages';
-  const MODEL = 'claude-sonnet-5';
+  const CLAUDE_URL = 'https://api.anthropic.com/v1/messages';
+  const CLAUDE_MODEL = 'claude-sonnet-5';
+  const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+  const GROQ_MODEL = 'llama-3.3-70b-versatile';
+
+  function provider() {
+    return BR.store.state.settings.aiProvider === 'groq' ? 'groq' : 'claude';
+  }
 
   function hasKey() {
-    return !!(BR.store.state.settings.apiKey || '').trim();
+    const s = BR.store.state.settings;
+    return provider() === 'groq' ? !!(s.groqKey || '').trim() : !!(s.apiKey || '').trim();
   }
 
   function brandBrief() {
@@ -31,9 +39,13 @@ window.BR = window.BR || {};
   }
 
   async function ask(system, user, maxTokens = 1200) {
+    return provider() === 'groq' ? askGroq(system, user, maxTokens) : askClaude(system, user, maxTokens);
+  }
+
+  async function askClaude(system, user, maxTokens) {
     const key = (BR.store.state.settings.apiKey || '').trim();
     if (!key) throw new Error('NO_KEY');
-    const res = await fetch(API_URL, {
+    const res = await fetch(CLAUDE_URL, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -42,7 +54,7 @@ window.BR = window.BR || {};
         'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({
-        model: MODEL,
+        model: CLAUDE_MODEL,
         max_tokens: maxTokens,
         system,
         messages: [{ role: 'user', content: user }]
@@ -50,10 +62,45 @@ window.BR = window.BR || {};
     });
     if (!res.ok) {
       const err = await res.text().catch(() => '');
-      throw new Error(`API ${res.status}: ${err.slice(0, 200)}`);
+      throw new Error(`Claude API ${res.status}: ${err.slice(0, 200)}`);
     }
     const data = await res.json();
     return (data.content || []).filter(c => c.type === 'text').map(c => c.text).join('\n').trim();
+  }
+
+  async function askGroq(system, user, maxTokens) {
+    const key = (BR.store.state.settings.groqKey || '').trim();
+    if (!key) throw new Error('NO_KEY');
+    const res = await fetch(GROQ_URL, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'authorization': `Bearer ${key}`
+      },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        max_tokens: maxTokens,
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user', content: user }
+        ]
+      })
+    });
+    if (!res.ok) {
+      const err = await res.text().catch(() => '');
+      throw new Error(`Groq API ${res.status}: ${err.slice(0, 200)}`);
+    }
+    const data = await res.json();
+    return ((data.choices || [])[0]?.message?.content || '').trim();
+  }
+
+  // strips markdown fences and stray prose, then parses the JSON payload
+  function parseJson(raw) {
+    const cleaned = raw.replace(/^```json?\s*/i, '').replace(/```\s*$/, '').trim();
+    try { return JSON.parse(cleaned); } catch (e) { /* fall through to bracket-slice */ }
+    const start = cleaned.indexOf('{'), end = cleaned.lastIndexOf('}');
+    if (start >= 0 && end > start) return JSON.parse(cleaned.slice(start, end + 1));
+    throw new Error('AI returned unparseable content: ' + cleaned.slice(0, 150));
   }
 
   /** AI caption for the Post studio. Returns plain text. */
@@ -70,7 +117,7 @@ window.BR = window.BR || {};
     const system = `You are a social media strategist for rental businesses. You design Instagram carousels that get saved and shared. Respond with VALID JSON only — no markdown fences, no commentary.`;
     const user = `${brandBrief()}\n\nDesign an Instagram carousel in ${langNames[lang] || 'English'} on the topic: "${topic}".\nReturn JSON exactly in this shape:\n{"title": "cover slide title (max 8 words)", "badge": "short cover label like SAVE THIS", "slides": [{"title": "slide headline (max 7 words)", "body": "1-2 punchy sentences"}], "ctaTitle": "final slide title", "ctaBody": "final slide call to action mentioning the brand handle", "caption": "post caption with hook + 3 lines + CTA + 10 hashtags"}\nUse 4-6 content slides.`;
     const raw = await ask(system, user, 1600);
-    return JSON.parse(raw.replace(/^```json?\s*/i, '').replace(/```\s*$/, ''));
+    return parseJson(raw);
   }
 
   /** AI reel script: returns {title, format, audio, scenes:[{shot,onscreen,voice}], caption}. */
@@ -79,8 +126,8 @@ window.BR = window.BR || {};
     const system = `You are a short-form video director for rental businesses. You write reels that hook in the first second. Respond with VALID JSON only — no markdown fences, no commentary.`;
     const user = `${brandBrief()}\n\nWrite an Instagram Reel script in ${langNames[lang] || 'English'} on the topic: "${topic}".\nReturn JSON exactly in this shape:\n{"title": "reel concept name", "format": "format description", "audio": "audio suggestion", "scenes": [{"shot": "what to film", "onscreen": "on-screen text overlay (short!)", "voice": "voiceover line or empty string"}], "caption": "post caption with hook + CTA + 10 hashtags"}\nUse 4-6 scenes. First scene must be a hard hook.`;
     const raw = await ask(system, user, 1600);
-    return JSON.parse(raw.replace(/^```json?\s*/i, '').replace(/```\s*$/, ''));
+    return parseJson(raw);
   }
 
-  BR.ai = { hasKey, caption, carousel, reel };
+  BR.ai = { hasKey, caption, carousel, reel, provider };
 })();

@@ -191,11 +191,17 @@ window.BR = window.BR || {};
       { value: 'serif', label: 'Serif' }, { value: 'mono', label: 'Mono' }
     ], b.font, () => previewBrand());
     setChips.style = chips($('setStyleChips'), [
-      { value: 'gradient', label: '🌅 Gradient' }, { value: 'dark', label: '🌑 Dark' },
-      { value: 'light', label: '☀️ Light' }, { value: 'solid', label: '🎨 Solid' }
+      { value: 'esports', label: '🎮 Esports HUD' }, { value: 'gradient', label: '🌅 Gradient' },
+      { value: 'dark', label: '🌑 Dark' }, { value: 'light', label: '☀️ Light' }, { value: 'solid', label: '🎨 Solid' }
     ], b.designStyle, () => previewBrand());
     setChips.lang = chips($('setLangChips'), BR.content.LANGS.map(l => ({ value: l, label: BR.content.LANG_LABELS[l] })), b.lang);
     setChips.tone = chips($('setToneChips'), BR.content.TONES.map(t => ({ value: t, label: BR.content.TONE_LABELS[t] })), b.tone);
+    setChips.aiProvider = chips($('setAIProviderChips'), [
+      { value: 'groq', label: '⚡ Groq (free)' }, { value: 'claude', label: '✦ Claude' }
+    ], BR.store.state.settings.aiProvider || 'claude', v => {
+      $('setApiKeyWrap').classList.toggle('hidden', v !== 'claude');
+      $('setGroqKeyWrap').classList.toggle('hidden', v !== 'groq');
+    });
 
     $('setEmoji').addEventListener('input', () => {
       $('setEmojiLabel').textContent = ['No emoji', 'Minimal', 'Moderate 👍', 'Maximum 🔥🔥'][+$('setEmoji').value];
@@ -270,6 +276,11 @@ window.BR = window.BR || {};
     $('setEmojiLabel').textContent = ['No emoji', 'Minimal', 'Moderate 👍', 'Maximum 🔥🔥'][b.emoji];
     $('setHashtags').value = b.hashtags;
     $('setApiKey').value = BR.store.state.settings.apiKey || '';
+    $('setGroqKey').value = BR.store.state.settings.groqKey || '';
+    const aiProvider = BR.store.state.settings.aiProvider || 'claude';
+    setChips.aiProvider.set(aiProvider);
+    $('setApiKeyWrap').classList.toggle('hidden', aiProvider !== 'claude');
+    $('setGroqKeyWrap').classList.toggle('hidden', aiProvider !== 'groq');
     const signals = BR.store.tasteSignals();
     $('tasteSummary').textContent = signals
       ? `I've learned from ${BR.store.state.taste.likes} likes and ${BR.store.state.taste.dislikes} dislikes. Your favorites get generated more often.`
@@ -296,6 +307,8 @@ window.BR = window.BR || {};
     b.emoji = +$('setEmoji').value;
     b.hashtags = $('setHashtags').value.trim();
     BR.store.state.settings.apiKey = $('setApiKey').value.trim();
+    BR.store.state.settings.groqKey = $('setGroqKey').value.trim();
+    BR.store.state.settings.aiProvider = setChips.aiProvider.get();
     BR.store.save();
     updateSidebar();
     toast('💾 Brand saved — every studio now uses it');
@@ -347,9 +360,9 @@ window.BR = window.BR || {};
     const ob = $('onboarding');
     ob.classList.remove('hidden');
     const styleChips = chips($('obStyleChips'), [
-      { value: 'gradient', label: '🌅 Gradient' }, { value: 'dark', label: '🌑 Dark' },
-      { value: 'light', label: '☀️ Light' }, { value: 'solid', label: '🎨 Solid' }
-    ], 'gradient');
+      { value: 'esports', label: '🎮 Esports HUD' }, { value: 'gradient', label: '🌅 Gradient' },
+      { value: 'dark', label: '🌑 Dark' }, { value: 'light', label: '☀️ Light' }, { value: 'solid', label: '🎨 Solid' }
+    ], 'esports');
     const toneChips = chips($('obToneChips'), BR.content.TONES.map(t => ({ value: t, label: BR.content.TONE_LABELS[t] })), 'bold');
     const langChips = chips($('obLangChips'), [
       { value: 'en', label: 'English' }, { value: 'ru', label: 'Русский' }, { value: 'uz', label: 'O\'zbekcha' }

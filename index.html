@@ -109,7 +109,7 @@
             <label>Format</label>
             <div class="chip-row" id="postSizeChips"></div>
             <button class="btn big" id="postGenerate">⚡ Generate post</button>
-            <button class="btn ghost" id="postAI" title="Uses your Claude API key from Settings">✨ Generate with AI</button>
+            <button class="btn ghost" id="postAI" title="Uses your AI key from Settings">✨ Generate with AI</button>
           </div>
         </div>
         <div class="studio-preview">
@@ -166,7 +166,7 @@
             <div id="carAIWrap" class="hidden">
               <label>Topic for AI</label>
               <input type="text" id="carAITopic" placeholder="e.g. 5 mistakes people make when renting a gaming account">
-              <p class="hint block">Uses your Claude API key from Settings.</p>
+              <p class="hint block">Uses your free Groq or Claude key from Settings.</p>
             </div>
             <button class="btn big" id="carGenerate">⚡ Build carousel</button>
           </div>
@@ -229,7 +229,7 @@
             <div id="reelAIWrap" class="hidden">
               <label>Topic for AI</label>
               <input type="text" id="reelAITopic" placeholder="e.g. POV: you just rented your first Prime account">
-              <p class="hint block">Uses your Claude API key from Settings.</p>
+              <p class="hint block">Uses your free Groq or Claude key from Settings.</p>
             </div>
             <button class="btn big" id="reelGenerate">⚡ Generate reel script</button>
           </div>
@@ -351,9 +351,19 @@
         </div>
         <div class="card">
           <h3>AI power-up <span class="hint">(optional)</span></h3>
-          <p class="hint block">Paste a Claude API key to unlock unlimited AI-written captions, carousels and reel scripts on any topic. Without it, the built-in template engine works fully offline. The key is stored only in this browser.</p>
-          <label>Claude API key</label>
-          <input id="setApiKey" type="password" placeholder="sk-ant-...">
+          <p class="hint block">Unlock unlimited AI-written captions, carousels and reel scripts on any topic. Without a key, the built-in template engine works fully offline. Keys are stored only in this browser, never sent anywhere but the provider.</p>
+          <label>AI provider</label>
+          <div class="chip-row" id="setAIProviderChips"></div>
+          <div id="setApiKeyWrap">
+            <label>Claude API key</label>
+            <input id="setApiKey" type="password" placeholder="sk-ant-...">
+            <p class="hint block">Get one at <b>console.anthropic.com</b> — new accounts get a small free credit, then pay-as-you-go.</p>
+          </div>
+          <div id="setGroqKeyWrap" class="hidden">
+            <label>Groq API key <span class="hint">(free)</span></label>
+            <input id="setGroqKey" type="password" placeholder="gsk_...">
+            <p class="hint block">Groq's free tier needs just an email — no credit card. Get a key at <b>console.groq.com/keys</b>, then paste it here.</p>
+          </div>
           <h3 style="margin-top:24px">Taste memory</h3>
           <p class="hint block" id="tasteSummary"></p>
           <button class="btn small ghost danger" id="tasteReset">Reset taste memory</button>
