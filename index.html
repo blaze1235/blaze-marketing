@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlazeRent Studio — Content Engine</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+</head>
+<body>
+
+<div id="app">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand-mark">
+      <div class="brand-logo" id="sideLogo">🔥</div>
+      <div>
+        <div class="brand-name" id="sideBrandName">BlazeRent</div>
+        <div class="brand-sub">Content Studio</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <button class="nav-btn active" data-view="dashboard"><span class="nav-ic">◈</span> Dashboard</button>
+      <button class="nav-btn" data-view="post"><span class="nav-ic">▣</span> Post Studio</button>
+      <button class="nav-btn" data-view="carousel"><span class="nav-ic">⧉</span> Carousel Studio</button>
+      <button class="nav-btn" data-view="reel"><span class="nav-ic">▷</span> Reel Studio</button>
+      <button class="nav-btn" data-view="planner"><span class="nav-ic">☰</span> Planner</button>
+      <button class="nav-btn" data-view="library"><span class="nav-ic">♥</span> Library</button>
+      <button class="nav-btn" data-view="settings"><span class="nav-ic">✦</span> Brand &amp; Taste</button>
+    </nav>
+    <div class="sidebar-foot">
+      <div class="taste-meter">
+        <div class="taste-meter-label">Taste memory</div>
+        <div class="taste-meter-bar"><div id="tasteMeterFill"></div></div>
+        <div class="taste-meter-sub" id="tasteMeterText">0 signals learned</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <section class="view active" id="view-dashboard">
+      <header class="view-head">
+        <h1 id="dashGreeting">Let's make something 🔥</h1>
+        <p class="muted" id="dashDate"></p>
+      </header>
+      <div class="dash-grid">
+        <div class="card dash-action" data-goto="post">
+          <div class="dash-ic">▣</div>
+          <h3>Create a Post</h3>
+          <p>Branded image + caption + hashtags, ready in one click.</p>
+        </div>
+        <div class="card dash-action" data-goto="carousel">
+          <div class="dash-ic">⧉</div>
+          <h3>Create a Carousel</h3>
+          <p>Multi-slide carousels from ready-made packs or your own points.</p>
+        </div>
+        <div class="card dash-action" data-goto="reel">
+          <div class="dash-ic">▷</div>
+          <h3>Create a Reel</h3>
+          <p>Full script + rendered vertical video with your photos.</p>
+        </div>
+      </div>
+      <div class="dash-grid two">
+        <div class="card">
+          <h3>💡 Today's idea</h3>
+          <p id="dashIdea" class="idea-text"></p>
+          <div class="row gap">
+            <button class="btn small ghost" id="dashIdeaShuffle">↺ Another idea</button>
+            <button class="btn small" id="dashIdeaUse">Use it →</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>📅 Up next in your plan</h3>
+          <div id="dashPlan" class="dash-plan"></div>
+        </div>
+      </div>
+      <div class="card stats-card">
+        <div class="stat"><b id="statPosts">0</b><span>saved items</span></div>
+        <div class="stat"><b id="statLikes">0</b><span>likes taught</span></div>
+        <div class="stat"><b id="statPlanned">0</b><span>planned</span></div>
+        <div class="stat"><b id="statStreak" >—</b><span>brand style</span></div>
+      </div>
+    </section>
+
+    <!-- POST STUDIO -->
+    <section class="view" id="view-post">
+      <header class="view-head">
+        <h1>Post Studio</h1>
+        <p class="muted">Generate a branded image + caption. Like/dislike to teach me your taste.</p>
+      </header>
+      <div class="studio">
+        <div class="studio-controls">
+          <div class="card">
+            <label>Post type</label>
+            <div class="chip-row" id="postTypeChips"></div>
+            <label>Language</label>
+            <div class="chip-row" id="postLangChips"></div>
+            <label>Tone</label>
+            <div class="chip-row" id="postToneChips"></div>
+            <label>Subject <span class="hint">(what's it about — e.g. "BMW X5", "weekend deal")</span></label>
+            <input type="text" id="postSubject" placeholder="e.g. BMW X5 2023">
+            <label>Offer / detail <span class="hint">(optional — price, discount, condition)</span></label>
+            <input type="text" id="postOffer" placeholder="e.g. from $49/day · free delivery">
+            <label>Photo <span class="hint">(optional — used as the image background)</span></label>
+            <input type="file" id="postPhoto" accept="image/*">
+            <label>Format</label>
+            <div class="chip-row" id="postSizeChips"></div>
+            <button class="btn big" id="postGenerate">⚡ Generate post</button>
+            <button class="btn ghost" id="postAI" title="Uses your Claude API key from Settings">✨ Generate with AI</button>
+          </div>
+        </div>
+        <div class="studio-preview">
+          <div class="card preview-card">
+            <div class="canvas-wrap"><canvas id="postCanvas" width="1080" height="1350"></canvas></div>
+            <div class="row gap wrap">
+              <button class="btn small ghost" id="postRestyle">🎨 Restyle</button>
+              <button class="btn small ghost" id="postEditText">✏️ Edit text</button>
+              <button class="btn small like" id="postLike">👍 Love it</button>
+              <button class="btn small dislike" id="postDislike">👎 Not my taste</button>
+            </div>
+          </div>
+          <div class="card caption-card">
+            <div class="caption-head">
+              <h3>Caption</h3>
+              <div class="row gap">
+                <button class="btn small ghost" id="postRecaption">↺ Rewrite</button>
+                <button class="btn small" id="postCopyCaption">⿻ Copy</button>
+              </div>
+            </div>
+            <textarea id="postCaption" rows="8" spellcheck="false"></textarea>
+          </div>
+          <div class="row gap export-row">
+            <button class="btn big" id="postDownload">⬇ Download PNG</button>
+            <button class="btn big ghost" id="postSave">♥ Save to library</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAROUSEL STUDIO -->
+    <section class="view" id="view-carousel">
+      <header class="view-head">
+        <h1>Carousel Studio</h1>
+        <p class="muted">Ready-made carousel packs for your niche, or design one from your own points.</p>
+      </header>
+      <div class="studio">
+        <div class="studio-controls">
+          <div class="card">
+            <label>Source</label>
+            <div class="chip-row" id="carSourceChips"></div>
+            <label>Language</label>
+            <div class="chip-row" id="carLangChips"></div>
+            <div id="carPackWrap">
+              <label>Ready-made pack</label>
+              <select id="carPackSelect"></select>
+            </div>
+            <div id="carCustomWrap" class="hidden">
+              <label>Title (cover slide)</label>
+              <input type="text" id="carCustomTitle" placeholder="e.g. 5 reasons to rent with us">
+              <label>Your points <span class="hint">(one per line — "Title | detail" or just a title)</span></label>
+              <textarea id="carCustomPoints" rows="7" placeholder="No deposit | Drive away in 10 minutes&#10;Full insurance included&#10;24/7 support | We answer in 5 min"></textarea>
+            </div>
+            <div id="carAIWrap" class="hidden">
+              <label>Topic for AI</label>
+              <input type="text" id="carAITopic" placeholder="e.g. 5 mistakes people make when renting a car">
+              <p class="hint block">Uses your Claude API key from Settings.</p>
+            </div>
+            <button class="btn big" id="carGenerate">⚡ Build carousel</button>
+          </div>
+          <div class="card">
+            <h3>Slides</h3>
+            <div id="carSlideList" class="slide-list"></div>
+            <button class="btn small ghost" id="carAddSlide">+ Add slide</button>
+          </div>
+        </div>
+        <div class="studio-preview">
+          <div class="card preview-card">
+            <div class="canvas-wrap"><canvas id="carCanvas" width="1080" height="1350"></canvas></div>
+            <div class="car-nav">
+              <button class="btn small ghost" id="carPrev">←</button>
+              <span id="carPageInfo">1 / 1</span>
+              <button class="btn small ghost" id="carNext">→</button>
+            </div>
+            <div class="row gap wrap">
+              <button class="btn small ghost" id="carRestyle">🎨 Restyle</button>
+              <button class="btn small like" id="carLike">👍 Love it</button>
+              <button class="btn small dislike" id="carDislike">👎 Not my taste</button>
+            </div>
+          </div>
+          <div class="card caption-card">
+            <div class="caption-head">
+              <h3>Caption</h3>
+              <div class="row gap">
+                <button class="btn small ghost" id="carRecaption">↺ Rewrite</button>
+                <button class="btn small" id="carCopyCaption">⿻ Copy</button>
+              </div>
+            </div>
+            <textarea id="carCaption" rows="6" spellcheck="false"></textarea>
+          </div>
+          <div class="row gap export-row">
+            <button class="btn big" id="carDownloadZip">⬇ Download all slides (.zip)</button>
+            <button class="btn ghost" id="carDownloadOne">⬇ This slide</button>
+            <button class="btn big ghost" id="carSave">♥ Save</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REEL STUDIO -->
+    <section class="view" id="view-reel">
+      <header class="view-head">
+        <h1>Reel Studio</h1>
+        <p class="muted">Get a shot-by-shot script — then render a real vertical video from your photos.</p>
+      </header>
+      <div class="studio">
+        <div class="studio-controls">
+          <div class="card">
+            <label>Source</label>
+            <div class="chip-row" id="reelSourceChips"></div>
+            <label>Language</label>
+            <div class="chip-row" id="reelLangChips"></div>
+            <div id="reelPackWrap">
+              <label>Reel concept</label>
+              <select id="reelPackSelect"></select>
+            </div>
+            <div id="reelAIWrap" class="hidden">
+              <label>Topic for AI</label>
+              <input type="text" id="reelAITopic" placeholder="e.g. POV: you rented a car for the weekend">
+              <p class="hint block">Uses your Claude API key from Settings.</p>
+            </div>
+            <button class="btn big" id="reelGenerate">⚡ Generate reel script</button>
+          </div>
+          <div class="card">
+            <h3>🎬 Render video</h3>
+            <p class="hint block">Add photos to scenes below, then render a 1080×1920 video with animated captions. No editing app needed.</p>
+            <label>Seconds per scene</label>
+            <input type="range" id="reelSceneDur" min="1.5" max="5" step="0.5" value="2.5">
+            <div class="hint" id="reelDurLabel">2.5s per scene</div>
+            <button class="btn big" id="reelRender">🎥 Render video</button>
+            <div id="reelProgress" class="progress hidden"><div id="reelProgressFill"></div></div>
+            <div id="reelRenderOut" class="render-out"></div>
+          </div>
+        </div>
+        <div class="studio-preview">
+          <div class="card">
+            <div class="caption-head">
+              <h3 id="reelTitle">Your reel script</h3>
+              <div class="row gap">
+                <button class="btn small like" id="reelLike">👍</button>
+                <button class="btn small dislike" id="reelDislike">👎</button>
+                <button class="btn small" id="reelCopyScript">⿻ Copy script</button>
+              </div>
+            </div>
+            <div id="reelMeta" class="reel-meta"></div>
+            <div id="reelScenes" class="reel-scenes"></div>
+          </div>
+          <div class="card caption-card">
+            <div class="caption-head">
+              <h3>Caption</h3>
+              <div class="row gap">
+                <button class="btn small ghost" id="reelRecaption">↺ Rewrite</button>
+                <button class="btn small" id="reelCopyCaption">⿻ Copy</button>
+              </div>
+            </div>
+            <textarea id="reelCaption" rows="6" spellcheck="false"></textarea>
+          </div>
+          <div class="row gap export-row">
+            <button class="btn big ghost" id="reelCover">⬇ Download cover image</button>
+            <button class="btn big ghost" id="reelSave">♥ Save</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLANNER -->
+    <section class="view" id="view-planner">
+      <header class="view-head">
+        <h1>Content Planner</h1>
+        <p class="muted">A week of content in one click. Track what's drafted, ready and posted.</p>
+      </header>
+      <div class="row gap" style="margin-bottom:16px">
+        <button class="btn" id="planGenerate">⚡ Generate my week</button>
+        <button class="btn ghost" id="planAdd">+ Add item</button>
+        <button class="btn ghost danger" id="planClear">Clear all</button>
+      </div>
+      <div id="planList" class="plan-list"></div>
+    </section>
+
+    <!-- LIBRARY -->
+    <section class="view" id="view-library">
+      <header class="view-head">
+        <h1>Library</h1>
+        <p class="muted">Everything you saved. Your best-performing formats live here.</p>
+      </header>
+      <div id="libList" class="lib-list"></div>
+    </section>
+
+    <!-- SETTINGS / BRAND -->
+    <section class="view" id="view-settings">
+      <header class="view-head">
+        <h1>Brand &amp; Taste</h1>
+        <p class="muted">This is my memory of you. Everything you create uses these settings automatically.</p>
+      </header>
+      <div class="settings-grid">
+        <div class="card">
+          <h3>Identity</h3>
+          <label>Brand name</label><input id="setName" type="text">
+          <label>Business type</label>
+          <select id="setNiche">
+            <option value="car">Car rental</option>
+            <option value="apartment">Apartment / property rental</option>
+            <option value="equipment">Equipment rental</option>
+            <option value="generic">Other rental business</option>
+          </select>
+          <label>Tagline</label><input id="setTagline" type="text" placeholder="e.g. Drive the city. Own the moment.">
+          <label>City</label><input id="setCity" type="text" placeholder="e.g. Tashkent">
+          <label>Instagram handle</label><input id="setHandle" type="text" placeholder="@blazerent">
+          <label>Phone / contact</label><input id="setPhone" type="text" placeholder="+998 ...">
+        </div>
+        <div class="card">
+          <h3>Design system</h3>
+          <label>Logo <span class="hint">(square PNG works best)</span></label>
+          <div class="row gap"><input type="file" id="setLogo" accept="image/*"><button class="btn small ghost" id="setLogoClear">✕</button></div>
+          <div class="color-grid">
+            <div><label>Primary</label><input id="setColPrimary" type="color"></div>
+            <div><label>Dark</label><input id="setColDark" type="color"></div>
+            <div><label>Accent</label><input id="setColAccent" type="color"></div>
+            <div><label>Light</label><input id="setColLight" type="color"></div>
+          </div>
+          <label>Typography</label>
+          <div class="chip-row" id="setFontChips"></div>
+          <label>Default visual style</label>
+          <div class="chip-row" id="setStyleChips"></div>
+          <div class="mini-preview"><canvas id="setPreviewCanvas" width="1080" height="1350"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>Voice &amp; defaults</h3>
+          <label>Default language</label>
+          <div class="chip-row" id="setLangChips"></div>
+          <label>Default tone</label>
+          <div class="chip-row" id="setToneChips"></div>
+          <label>Emoji level</label>
+          <input type="range" id="setEmoji" min="0" max="3" step="1">
+          <div class="hint" id="setEmojiLabel"></div>
+          <label>Your hashtag bank <span class="hint">(always appended)</span></label>
+          <textarea id="setHashtags" rows="3" placeholder="#blazerent #rentacar"></textarea>
+        </div>
+        <div class="card">
+          <h3>AI power-up <span class="hint">(optional)</span></h3>
+          <p class="hint block">Paste a Claude API key to unlock unlimited AI-written captions, carousels and reel scripts on any topic. Without it, the built-in template engine works fully offline. The key is stored only in this browser.</p>
+          <label>Claude API key</label>
+          <input id="setApiKey" type="password" placeholder="sk-ant-...">
+          <h3 style="margin-top:24px">Taste memory</h3>
+          <p class="hint block" id="tasteSummary"></p>
+          <button class="btn small ghost danger" id="tasteReset">Reset taste memory</button>
+          <h3 style="margin-top:24px">Data</h3>
+          <div class="row gap">
+            <button class="btn small ghost" id="dataExport">⬇ Export all data</button>
+            <button class="btn small ghost" id="dataImportBtn">⬆ Import</button>
+            <input type="file" id="dataImport" accept=".json" class="hidden">
+          </div>
+        </div>
+      </div>
+      <div class="row" style="margin-top:16px"><button class="btn big" id="setSave">💾 Save brand</button></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============ ONBOARDING ============ -->
+<div class="modal-backdrop hidden" id="onboarding">
+  <div class="modal onboard">
+    <div id="obStep1">
+      <div class="ob-flame">🔥</div>
+      <h2>Welcome to BlazeRent Studio</h2>
+      <p class="muted">Your personal content engine. 60 seconds of setup, then I remember everything.</p>
+      <label>Brand name</label><input id="obName" type="text" value="BlazeRent">
+      <label>What do you rent out?</label>
+      <select id="obNiche">
+        <option value="car">Cars</option>
+        <option value="apartment">Apartments / property</option>
+        <option value="equipment">Equipment</option>
+        <option value="generic">Something else</option>
+      </select>
+      <label>City</label><input id="obCity" type="text" placeholder="e.g. Tashkent">
+      <label>Instagram handle</label><input id="obHandle" type="text" placeholder="@blazerent">
+      <button class="btn big" id="obNext1">Next →</button>
+    </div>
+    <div id="obStep2" class="hidden">
+      <h2>Your look &amp; voice</h2>
+      <label>Primary color</label><input id="obColor" type="color" value="#FF5A1F">
+      <label>Visual style</label>
+      <div class="chip-row" id="obStyleChips"></div>
+      <label>Tone of voice</label>
+      <div class="chip-row" id="obToneChips"></div>
+      <label>Main content language</label>
+      <div class="chip-row" id="obLangChips"></div>
+      <button class="btn big" id="obFinish">Start creating 🔥</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ EDIT TEXT MODAL ============ -->
+<div class="modal-backdrop hidden" id="editModal">
+  <div class="modal">
+    <h2>Edit slide text</h2>
+    <label>Badge / label</label><input id="emBadge" type="text">
+    <label>Title</label><textarea id="emTitle" rows="2"></textarea>
+    <label>Body</label><textarea id="emBody" rows="4"></textarea>
+    <div class="row gap" style="margin-top:14px">
+      <button class="btn" id="emApply">Apply</button>
+      <button class="btn ghost" id="emCancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="js/store.js"></script>
+<script src="js/content.js"></script>
+<script src="js/canvas.js"></script>
+<script src="js/zip.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/post.js"></script>
+<script src="js/carousel.js"></script>
+<script src="js/reel.js"></script>
+<script src="js/planner.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
