@@ -1,6 +1,6 @@
 # 🔥 BlazeRent Studio
 
-Your personal content engine: create **ready-to-post Instagram posts, carousels and reels** for BlazeRent — with a brand memory that learns your taste over time.
+Your personal content engine: create **ready-to-post Instagram posts, carousels and reels** for BlazeRent — the Telegram-based CS2 Prime account rental service — with a brand memory that learns your taste over time.
 
 No installs, no build step, no dependencies. One folder of static files.
 
@@ -30,7 +30,7 @@ python3 -m http.server 8080
 
 ## 🧠 It remembers you
 
-- **Brand Kit** — name, niche, city, logo, colors, typography, visual style, tone of voice, languages, hashtag bank. Set once in *Brand & Taste*; applied to everything automatically.
+- **Brand Kit** — name, business type (defaults to gaming account rental, also supports car/apartment/equipment rental), city, logo, colors, typography, visual style, tone of voice, languages, hashtag bank. Set once in *Brand & Taste*; applied to everything automatically.
 - **Taste memory** — hit 👍 / 👎 on anything generated. Liked hooks, packs, styles and tones get picked more often; disliked ones fade away. Watch the "taste memory" meter fill up in the sidebar.
 - **Session memory** — every studio remembers your last-used type, tone, language and format.
 - All data lives in your browser's localStorage. Use *Brand & Taste → Export/Import* to back it up or move machines.

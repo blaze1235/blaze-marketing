@@ -12,6 +12,11 @@ window.BR = window.BR || {};
    * so the same pack adapts to cars, apartments, equipment, or anything.
    * ===================================================================== */
   const NICHE = {
+    gaming: {
+      en: { one: 'Prime account', many: 'Prime accounts', ride: 'account', verb: 'play' },
+      ru: { one: 'Prime аккаунт', many: 'Prime аккаунты', ride: 'аккаунт', verb: 'играть' },
+      uz: { one: 'Prime hisob', many: 'Prime hisoblar', ride: 'hisob', verb: "o'ynash" }
+    },
     car: {
       en: { one: 'car', many: 'cars', ride: 'ride', verb: 'drive' },
       ru: { one: 'авто', many: 'автомобили', ride: 'тачку', verb: 'поехать' },
@@ -35,7 +40,7 @@ window.BR = window.BR || {};
   };
 
   const DEFAULT_SUBJECT = {
-    en: 'your next {ride}', ru: 'вашу следующую {ride}', uz: 'keyingi {ride}'
+    en: 'your next {ride}', ru: '{ride} мечты', uz: 'keyingi {ride}'
   };
 
   /* =====================================================================
@@ -60,7 +65,7 @@ window.BR = window.BR || {};
           { id: 'en.pr.b4', t: 'Weekend plans, business trip, or just because — {name} has the right {one} at the right price. Availability is limited this week.' }
         ],
         ctas: [
-          { id: 'en.pr.c1', t: '📲 DM us "BOOK" or call {phone} — we\'ll hold it for you.' },
+          { id: 'en.pr.c1', t: '📲 DM us "BOOK" or reach {phone} — we\'ll hold it for you.' },
           { id: 'en.pr.c2', t: '👉 Tap the link in bio to reserve. Takes 2 minutes.' },
           { id: 'en.pr.c3', t: '📩 Message {handle} now — first come, first served.' },
           { id: 'en.pr.c4', tones: ['bold'], t: '⏳ Offer ends soon. DM "GO" before someone else does.' }
@@ -81,7 +86,7 @@ window.BR = window.BR || {};
         ctas: [
           { id: 'en.sh.c1', t: '📲 DM {handle} to check availability for your dates.' },
           { id: 'en.sh.c2', t: '💬 Comment "PRICE" and we\'ll send you the details.' },
-          { id: 'en.sh.c3', t: '📞 {phone} — quick call, quick booking.' }
+          { id: 'en.sh.c3', t: '📞 {phone} — fast reply, fast booking.' }
         ]
       },
       tip: {
@@ -91,10 +96,10 @@ window.BR = window.BR || {};
           { id: 'en.tp.h3', tones: ['friendly'], t: 'Quick tip from the {name} team 👇' }
         ],
         bodies: [
-          { id: 'en.tp.b1', t: 'Always check what\'s included in the price: insurance, mileage, deposit terms. At {name} we put it all in writing before you pay — so there are zero surprises.' },
-          { id: 'en.tp.b2', t: 'Book 2–3 days ahead for weekends. The best {many} go first — and early birds get better rates too.' },
-          { id: 'en.tp.b3', t: 'Photograph the {one} together with the manager at pickup. Honest companies (like us 😌) insist on it — it protects both sides.' },
-          { id: 'en.tp.b4', t: '{subject}? Here\'s the short version: compare the full cost, not the daily rate. Delivery, insurance and deposit terms are where budgets quietly die.' }
+          { id: 'en.tp.b1', t: 'Always check what\'s included before you pay — terms, support, everything. At {name} we put it all in writing upfront — so there are zero surprises.' },
+          { id: 'en.tp.b2', t: 'Book ahead for weekends. The best {many} go first — and early birds get better rates too.' },
+          { id: 'en.tp.b3', t: 'Ask exactly what you\'re getting before you commit. Honest companies (like us 😌) show it all upfront — it protects both sides.' },
+          { id: 'en.tp.b4', t: '{subject}? Here\'s the short version: compare the full cost, not the headline price. Hidden terms are where budgets quietly die.' }
         ],
         ctas: [
           { id: 'en.tp.c1', t: '💾 Save this post — future you will thank you.' },
@@ -151,7 +156,7 @@ window.BR = window.BR || {};
           { id: 'ru.pr.b3', t: 'Выходные, командировка или просто так — в {name} найдётся {one} под ваш бюджет. На этой неделе свободных мест мало.' }
         ],
         ctas: [
-          { id: 'ru.pr.c1', t: '📲 Пишите «БРОНЬ» в директ или звоните {phone} — придержим для вас.' },
+          { id: 'ru.pr.c1', t: '📲 Пишите «БРОНЬ» в директ или напишите {phone} — придержим для вас.' },
           { id: 'ru.pr.c2', t: '👉 Ссылка в шапке профиля. Бронь за 2 минуты.' },
           { id: 'ru.pr.c3', tones: ['bold'], t: '⏳ Предложение сгорит. Пишите {handle} прямо сейчас.' }
         ]
@@ -169,7 +174,7 @@ window.BR = window.BR || {};
         ctas: [
           { id: 'ru.sh.c1', t: '📲 Пишите {handle} — проверим свободные даты.' },
           { id: 'ru.sh.c2', t: '💬 Комментарий «ЦЕНА» — и мы пришлём все условия.' },
-          { id: 'ru.sh.c3', t: '📞 {phone} — один звонок, и всё готово.' }
+          { id: 'ru.sh.c3', t: '📞 {phone} — одно сообщение, и всё готово.' }
         ]
       },
       tip: {
@@ -179,9 +184,9 @@ window.BR = window.BR || {};
           { id: 'ru.tp.h3', tones: ['friendly'], t: 'Быстрый совет от команды {name} 👇' }
         ],
         bodies: [
-          { id: 'ru.tp.b1', t: 'Всегда уточняйте, что входит в цену: страховка, лимит пробега, условия депозита. В {name} всё фиксируется письменно до оплаты — ноль сюрпризов.' },
-          { id: 'ru.tp.b2', t: 'Бронируйте за 2–3 дня до выходных. Лучшие {many} разбирают первыми — и ранняя бронь всегда дешевле.' },
-          { id: 'ru.tp.b3', t: 'Фотографируйте {one} вместе с менеджером при получении. Честные компании (как мы 😌) сами на этом настаивают.' }
+          { id: 'ru.tp.b1', t: 'Всегда уточняйте, что входит в цену, до оплаты — условия, поддержка, всё. В {name} всё фиксируется письменно заранее — ноль сюрпризов.' },
+          { id: 'ru.tp.b2', t: 'Бронируйте заранее на выходные. Лучшие {many} разбирают первыми — и ранняя бронь всегда дешевле.' },
+          { id: 'ru.tp.b3', t: 'Уточняйте, что именно вы получаете, прежде чем платить. Честные компании (как мы 😌) показывают всё заранее — это защищает обе стороны.' }
         ],
         ctas: [
           { id: 'ru.tp.c1', t: '💾 Сохраните пост — пригодится.' },
@@ -234,7 +239,7 @@ window.BR = window.BR || {};
           { id: 'uz.pr.b3', t: 'Dam olish, mehmon kutish yoki shunchaki sayr — {name}da budjetingizga mos {one} bor. Bu hafta joylar kam qoldi.' }
         ],
         ctas: [
-          { id: 'uz.pr.c1', t: '📲 Direktga «BRON» deb yozing yoki {phone} ga qo\'ng\'iroq qiling.' },
+          { id: 'uz.pr.c1', t: '📲 Direktga «BRON» deb yozing yoki {phone} orqali yozing.' },
           { id: 'uz.pr.c2', t: '👉 Bio\'dagi havola orqali band qiling. 2 daqiqa kifoya.' },
           { id: 'uz.pr.c3', tones: ['bold'], t: '⏳ Taklif tez tugaydi. Hoziroq {handle} ga yozing.' }
         ]
@@ -252,7 +257,7 @@ window.BR = window.BR || {};
         ctas: [
           { id: 'uz.sh.c1', t: '📲 {handle} ga yozing — bo\'sh kunlarni tekshiramiz.' },
           { id: 'uz.sh.c2', t: '💬 Izohga «NARX» deb yozing — barcha shartlarni yuboramiz.' },
-          { id: 'uz.sh.c3', t: '📞 {phone} — bir qo\'ng\'iroq va hammasi tayyor.' }
+          { id: 'uz.sh.c3', t: '📞 {phone} — bitta xabar va hammasi tayyor.' }
         ]
       },
       tip: {
@@ -262,9 +267,9 @@ window.BR = window.BR || {};
           { id: 'uz.tp.h3', tones: ['friendly'], t: '{name} jamoasidan qisqa maslahat 👇' }
         ],
         bodies: [
-          { id: 'uz.tp.b1', t: 'Narxga nima kirishini doim so\'rang: sug\'urta, limit, depozit shartlari. {name}da hammasi to\'lovdan oldin yozma qayd etiladi — syurprizlar yo\'q.' },
-          { id: 'uz.tp.b2', t: 'Dam olish kunlariga 2–3 kun oldin band qiling. Eng zo\'r {many} birinchi bo\'lib ketadi — erta band qilganlar arzonroq oladi.' },
-          { id: 'uz.tp.b3', t: 'Olayotganda {one}ni menejer bilan birga suratga oling. Halol kompaniyalar (biz kabi 😌) buni o\'zi taklif qiladi.' }
+          { id: 'uz.tp.b1', t: 'To\'lovdan oldin narxga nima kirishini doim so\'rang — shartlar, qo\'llab-quvvatlash, hammasi. {name}da hammasi oldindan yozma qayd etiladi — syurprizlar yo\'q.' },
+          { id: 'uz.tp.b2', t: 'Dam olish kunlariga oldindan band qiling. Eng zo\'r {many} birinchi bo\'lib ketadi — erta band qilganlar arzonroq oladi.' },
+          { id: 'uz.tp.b3', t: 'To\'lovdan oldin aynan nima olayotganingizni aniqlashtiring. Halol kompaniyalar (biz kabi 😌) hammasini oldindan ko\'rsatadi — bu ikki tomonni ham himoya qiladi.' }
         ],
         ctas: [
           { id: 'uz.tp.c1', t: '💾 Postni saqlab qo\'ying — asqotadi.' },
@@ -309,6 +314,11 @@ window.BR = window.BR || {};
    * HASHTAGS
    * ===================================================================== */
   const TAGS = {
+    gaming: {
+      en: ['#cs2', '#counterstrike2', '#primeaccount', '#csgo', '#gaming', '#pcgaming'],
+      ru: ['#кс2', '#cs2', '#primeaccount', '#арендааккаунта', '#counterstrike', '#games'],
+      uz: ['#cs2', '#hisobijara', '#gaming', '#kompyuteroyinlari']
+    },
     car: {
       en: ['#carrental', '#rentacar', '#roadtrip', '#carlife', '#travel'],
       ru: ['#арендаавто', '#прокатавто', '#автопрокат', '#путешествие'],
@@ -337,7 +347,68 @@ window.BR = window.BR || {};
   const CAROUSELS = {
     en: [
       {
-        id: 'en.car.reasons', title: '5 reasons to rent instead of owning',
+        id: 'en.gm.reasons', niche: 'gaming', title: '5 reasons to rent a Prime account instead of buying one',
+        cover: { title: '5 reasons renting beats buying', badge: 'SAVE THIS' },
+        slides: [
+          { title: 'Way cheaper per session', body: 'A full account costs real money upfront. Rent {one} for exactly the hours you\'ll actually play.' },
+          { title: 'Zero ban risk on your money', body: 'If anything happens to the account, it\'s not your investment on the line. Play stress-free.' },
+          { title: 'Try before you commit', body: 'Not sure Prime is worth it long-term? Rent a few sessions first and decide for yourself.' },
+          { title: 'Instant access, no grinding', body: 'Skip the trust factor grind and rank resets. Jump straight into Prime matchmaking.' },
+          { title: 'Flexible durations', body: 'Need it for an hour, a day, or a week? {name} has {many} for exactly your schedule.' }
+        ],
+        cta: { title: 'Ready when you are 🔥', body: 'Message {handle} on Telegram — we\'ll get you in within minutes.' },
+        caption: '5 honest reasons renting a Prime account beats buying one 👆\n\nWhich one convinced you? Tell us below 👇'
+      },
+      {
+        id: 'en.gm.steps', niche: 'gaming', title: 'How it works — rent in 3 easy steps',
+        cover: { title: 'Renting with {name} in 3 easy steps', badge: 'HOW IT WORKS' },
+        slides: [
+          { title: 'Step 1 — Open the bot', body: 'Open {handle} on Telegram and top up your balance. Takes seconds, all payment methods supported.' },
+          { title: 'Step 2 — Choose your duration', body: 'Pick an hour, a day, or a week. See exactly what rank range and trust factor you\'re getting.' },
+          { title: 'Step 3 — Get instant access', body: 'Login details land in your chat immediately. Launch CS2 and queue up.' }
+        ],
+        cta: { title: 'That\'s literally it ✅', body: 'No waiting, no forms. Start now → {handle}' },
+        caption: 'Renting a Prime account takes 3 steps and about 60 seconds ⏱️\n\nSave this for when you need it 💾'
+      },
+      {
+        id: 'en.gm.faq', niche: 'gaming', title: 'FAQ — you asked, we answered',
+        cover: { title: 'Your top questions, answered honestly', badge: 'FAQ' },
+        slides: [
+          { title: '"Is it safe?"', body: 'Yes — every account is monitored and rotated regularly. Your balance and chats stay private.' },
+          { title: '"What if I get banned?"', body: 'Play fair and you\'re fine. Accounts are for legitimate matchmaking, not cheating or smurfing abuse.' },
+          { title: '"Can I play ranked / Premier?"', body: 'Yes! All {many} come Prime-enabled with real trust factor, ready for competitive queue.' },
+          { title: '"How fast is delivery?"', body: 'Instant. The bot hands you login details the second your payment clears.' }
+        ],
+        cta: { title: 'More questions? 💬', body: 'Message {handle} — we reply in minutes, any hour.' },
+        caption: 'We collected your most-asked questions and answered honestly 👆\n\nAnything we missed? Ask below 👇'
+      },
+      {
+        id: 'en.gm.mistakes', niche: 'gaming', title: '5 mistakes to avoid when renting an account',
+        cover: { title: '5 mistakes that ruin a rental session', badge: 'AVOID THESE' },
+        slides: [
+          { title: 'Not checking the trust factor', body: 'Ask what rank range and trust factor you\'re getting before you pay — reputable services always show it upfront.' },
+          { title: 'Ignoring the time limit', body: 'Know exactly when your session ends. Save your progress and log out cleanly before time runs out.' },
+          { title: 'Using it for anything but CS2', body: 'These are Prime gaming accounts — logging other apps or changing account details gets sessions cut short.' },
+          { title: 'Skipping 24/7 support', body: 'Something feels off mid-session? A real rental service answers immediately — don\'t just wait it out.' },
+          { title: 'Choosing by price alone', body: 'Suspiciously cheap often means shared, unstable or already-flagged accounts. Reviews matter more than price.' }
+        ],
+        cta: { title: 'Rent smart 💡', body: 'At {name} everything is transparent by default. Try it: {handle}' },
+        caption: 'These 5 mistakes ruin rental sessions every single day 💸\n\nNumber 2 is the one everybody forgets. Save this post 💾'
+      },
+      {
+        id: 'en.gm.included', niche: 'gaming', title: 'What\'s included in your rental',
+        cover: { title: 'What you ACTUALLY get for your money', badge: 'FULL TRANSPARENCY' },
+        slides: [
+          { title: 'Prime status guaranteed', body: 'Every account is Prime-enabled — full matchmaking access from the first match.' },
+          { title: 'Real trust factor', body: 'Play with a healthy trust factor and a clean rank range, not a flagged smurf account.' },
+          { title: '24/7 support', body: 'A real human answers in the bot. Any issue, any hour.' },
+          { title: 'Secure balance system', body: 'Top up once, rent whenever. No repeated payment friction, no hidden fees.' }
+        ],
+        cta: { title: 'Transparent by design ✨', body: 'Questions? Message {handle} — we answer everything, fast.' },
+        caption: 'The question we love most: "okay, but what do I ACTUALLY get?" 👀\n\nHere\'s everything included, slide by slide 👆'
+      },
+      {
+        id: 'en.car.reasons', niche: 'car', title: '5 reasons to rent instead of owning',
         cover: { title: '5 reasons renting beats owning', badge: 'SAVE THIS' },
         slides: [
           { title: 'Zero maintenance headaches', body: 'Repairs, servicing, depreciation — all our problem, not yours. You just enjoy the {one}.' },
@@ -425,7 +496,68 @@ window.BR = window.BR || {};
 
     ru: [
       {
-        id: 'ru.car.reasons', title: '5 причин арендовать, а не покупать',
+        id: 'ru.gm.reasons', niche: 'gaming', title: '5 причин арендовать Prime аккаунт, а не покупать',
+        cover: { title: '5 причин: аренда выгоднее покупки аккаунта', badge: 'СОХРАНИ' },
+        slides: [
+          { title: 'Дешевле за сессию', body: 'Полный аккаунт стоит реальных денег сразу. Аренда {one} — это оплата ровно за те часы, что вы играете.' },
+          { title: 'Ноль риска для ваших денег', body: 'Если с аккаунтом что-то случится — это не ваши вложения. Играйте спокойно.' },
+          { title: 'Попробуй, прежде чем купить', body: 'Не уверены, нужен ли Prime навсегда? Возьмите пару сессий в аренду и решите сами.' },
+          { title: 'Без гринда трастфактора', body: 'Пропустите набор трастфактора и сброс ранга. Сразу в Prime матчмейкинг.' },
+          { title: 'Гибкие сроки', body: 'Нужно на час, день или неделю? В {name} есть {many} под любой график.' }
+        ],
+        cta: { title: 'Готовы? Мы тоже 🔥', body: 'Пишите {handle} в Telegram — подключим за пару минут.' },
+        caption: '5 честных причин, почему аренда Prime аккаунта выгоднее покупки 👆\n\nКакая убедила вас? Пишите ниже 👇'
+      },
+      {
+        id: 'ru.gm.steps', niche: 'gaming', title: 'Как это работает — аренда за 3 шага',
+        cover: { title: 'Аренда в {name} за 3 простых шага', badge: 'ИНСТРУКЦИЯ' },
+        slides: [
+          { title: 'Шаг 1 — Открываете бота', body: 'Открываете {handle} в Telegram и пополняете баланс. Пара секунд, любые способы оплаты.' },
+          { title: 'Шаг 2 — Выбираете срок', body: 'Час, день или неделя. Сразу видно ранг и трастфактор аккаунта.' },
+          { title: 'Шаг 3 — Получаете доступ', body: 'Логин и пароль приходят в чат мгновенно. Запускайте CS2 и вставайте в очередь.' }
+        ],
+        cta: { title: 'Вот и всё ✅', body: 'Без ожидания и анкет. Начните → {handle}' },
+        caption: 'Аренда Prime аккаунта — это 3 шага и 60 секунд ⏱️\n\nСохраните на будущее 💾'
+      },
+      {
+        id: 'ru.gm.faq', niche: 'gaming', title: 'FAQ — вы спрашивали, мы отвечаем',
+        cover: { title: 'Ваши главные вопросы — честные ответы', badge: 'FAQ' },
+        slides: [
+          { title: '«Это безопасно?»', body: 'Да — каждый аккаунт под контролем и регулярно проверяется. Ваш баланс и переписка остаются приватными.' },
+          { title: '«А если забанят?»', body: 'Играйте честно — и всё будет в порядке. Аккаунты для обычного матчмейкинга, не для читов и смурфинга.' },
+          { title: '«Можно играть рейтинг / Premier?»', body: 'Да! Все {many} с активным Prime и реальным трастфактором — готовы к рейтинговой игре.' },
+          { title: '«Как быстро выдача?»', body: 'Мгновенно. Бот присылает данные для входа сразу после оплаты.' }
+        ],
+        cta: { title: 'Остались вопросы? 💬', body: 'Пишите {handle} — отвечаем за минуты, в любое время.' },
+        caption: 'Собрали ваши самые частые вопросы и ответили честно 👆\n\nЧто-то упустили? Спрашивайте 👇'
+      },
+      {
+        id: 'ru.gm.mistakes', niche: 'gaming', title: '5 ошибок при аренде аккаунта',
+        cover: { title: '5 ошибок, которые портят сессию', badge: 'НЕ ДЕЛАЙТЕ ТАК' },
+        slides: [
+          { title: 'Не спросить трастфактор', body: 'Уточняйте ранг и трастфактор до оплаты — надёжный сервис всегда показывает это сразу.' },
+          { title: 'Игнорировать лимит времени', body: 'Точно знайте, когда закончится сессия. Сохраняйтесь и выходите заранее.' },
+          { title: 'Использовать не по назначению', body: 'Это игровые Prime аккаунты — вход в другие приложения или смена данных обрывает сессию.' },
+          { title: 'Пропускать поддержку 24/7', body: 'Что-то не так во время игры? Надёжный сервис отвечает сразу — не ждите молча.' },
+          { title: 'Выбирать только по цене', body: 'Подозрительно дёшево = подозрительно нестабильно. Отзывы важнее ценника.' }
+        ],
+        cta: { title: 'Арендуйте с умом 💡', body: 'В {name} всё прозрачно по умолчанию. Проверьте: {handle}' },
+        caption: 'Эти 5 ошибок портят игровые сессии каждый день 💸\n\nПункт 2 забывают почти все. Сохраните пост 💾'
+      },
+      {
+        id: 'ru.gm.included', niche: 'gaming', title: 'Что входит в аренду',
+        cover: { title: 'За что вы НА САМОМ ДЕЛЕ платите', badge: 'ПРОЗРАЧНОСТЬ' },
+        slides: [
+          { title: 'Prime гарантирован', body: 'Каждый аккаунт с активным Prime — полный доступ к матчмейкингу с первой игры.' },
+          { title: 'Реальный трастфактор', body: 'Играйте с здоровым трастфактором и чистым рангом, а не с зафлагованным смурфом.' },
+          { title: 'Поддержка 24/7', body: 'В боте отвечает живой человек. Любой вопрос, любое время.' },
+          { title: 'Безопасный баланс', body: 'Пополнили один раз — арендуйте когда угодно. Без повторных платежей и скрытых комиссий.' }
+        ],
+        cta: { title: 'Прозрачно по умолчанию ✨', body: 'Вопросы? Пишите {handle} — отвечаем быстро.' },
+        caption: 'Любимый вопрос клиентов: «а что я РЕАЛЬНО получаю?» 👀\n\nВот всё, что включено — слайд за слайдом 👆'
+      },
+      {
+        id: 'ru.car.reasons', niche: 'car', title: '5 причин арендовать, а не покупать',
         cover: { title: '5 причин: аренда выгоднее покупки', badge: 'СОХРАНИ' },
         slides: [
           { title: 'Ноль забот об обслуживании', body: 'Ремонт, ТО, амортизация — это наши проблемы, не ваши. Вы просто пользуетесь.' },
@@ -489,7 +621,44 @@ window.BR = window.BR || {};
 
     uz: [
       {
-        id: 'uz.car.reasons', title: 'Nega sotib olish emas, ijara — 5 sabab',
+        id: 'uz.gm.reasons', niche: 'gaming', title: 'Sotib olish emas, ijara — Prime hisob uchun 5 sabab',
+        cover: { title: 'Ijara sotib olishdan yaxshi: 5 sabab', badge: 'SAQLAB QO\'YING' },
+        slides: [
+          { title: 'Har sessiya uchun arzon', body: 'To\'liq hisob darhol katta pul talab qiladi. {one} ijarasida faqat o\'ynagan soatlaringiz uchun to\'laysiz.' },
+          { title: 'Pulingizga xavf yo\'q', body: 'Hisobga biror narsa bo\'lsa — bu sizning investitsiyangiz emas. Xotirjam o\'ynang.' },
+          { title: 'Sinab ko\'ring, keyin qaror qiling', body: 'Prime kerakmi-yo\'qmi bilmayapsizmi? Bir necha marta ijaraga oling va o\'zingiz hal qiling.' },
+          { title: 'Trast-faktor yig\'ishsiz', body: 'Trast-faktor yig\'ish va rank tushishini o\'tkazib yuboring. To\'g\'ridan-to\'g\'ri Prime matchmaking.' },
+          { title: 'Moslashuvchan muddat', body: 'Bir soat, bir kun yoki bir hafta kerakmi? {name}da jadvalingizga mos {many} bor.' }
+        ],
+        cta: { title: 'Tayyormisiz? Biz ham 🔥', body: 'Telegramda {handle} ga yozing — bir necha daqiqada ulaymiz.' },
+        caption: 'Prime hisobni ijaraga olish sotib olishdan nega yaxshi — 5 halol sabab 👆\n\nQaysi biri sizni ishontirdi? Pastda yozing 👇'
+      },
+      {
+        id: 'uz.gm.faq', niche: 'gaming', title: 'FAQ — siz so\'radingiz, biz javob berdik',
+        cover: { title: 'Eng ko\'p so\'raladigan savollar', badge: 'FAQ' },
+        slides: [
+          { title: '«Bu xavfsizmi?»', body: 'Ha — har bir hisob nazorat qilinadi va muntazam tekshiriladi. Balansingiz va yozishmalaringiz maxfiy qoladi.' },
+          { title: '«Ban bo\'lsa-chi?»', body: 'Halol o\'ynasangiz muammo yo\'q. Hisoblar oddiy matchmaking uchun, cheat yoki smurf uchun emas.' },
+          { title: '«Reyting/Premier o\'ynasa bo\'ladimi?»', body: 'Ha! Barcha {many} faol Prime va haqiqiy trast-faktor bilan — reyting o\'yiniga tayyor.' },
+          { title: '«Qancha tezlikda beriladi?»', body: 'Darhol. To\'lov o\'tishi bilan bot kirish ma\'lumotlarini yuboradi.' }
+        ],
+        cta: { title: 'Yana savol bormi? 💬', body: '{handle} ga yozing — daqiqalarda javob beramiz.' },
+        caption: 'Eng ko\'p so\'raladigan savollaringizga halol javob berdik 👆\n\nNimadir qoldimi? So\'rang 👇'
+      },
+      {
+        id: 'uz.gm.included', niche: 'gaming', title: 'Ijaraga nima kiradi',
+        cover: { title: 'Pulingizga ASLIDA nima olasiz', badge: 'OSHKORALIK' },
+        slides: [
+          { title: 'Prime kafolatlangan', body: 'Har bir hisobda faol Prime — birinchi o\'yindan to\'liq matchmaking huquqi.' },
+          { title: 'Haqiqiy trast-faktor', body: 'Sog\'lom trast-faktor va toza rank bilan o\'ynang, bayroqlangan smurf bilan emas.' },
+          { title: '24/7 qo\'llab-quvvatlash', body: 'Botda jonli odam javob beradi. Istalgan savol, istalgan vaqt.' },
+          { title: 'Xavfsiz balans tizimi', body: 'Bir marta to\'ldiring — istalgan vaqt ijaraga oling. Qayta to\'lovsiz, yashirin komissiyasiz.' }
+        ],
+        cta: { title: 'Standart bo\'yicha shaffof ✨', body: 'Savollar? {handle} ga yozing — tez javob beramiz.' },
+        caption: 'Mijozlarning sevimli savoli: «xo\'sh, ASLIDA nima olaman?» 👀\n\nMana narxga kiradigan hamma narsa 👆'
+      },
+      {
+        id: 'uz.car.reasons', niche: 'car', title: 'Nega sotib olish emas, ijara — 5 sabab',
         cover: { title: 'Ijara sotib olishdan yaxshi: 5 sabab', badge: 'SAQLAB QO\'YING' },
         slides: [
           { title: 'Xizmat ko\'rsatish tashvishi yo\'q', body: 'Ta\'mir, texnik ko\'rik, eskirish — bularning bari bizning muammomiz. Siz faqat foydalanasiz.' },
@@ -559,7 +728,67 @@ window.BR = window.BR || {};
   const REELS = {
     en: [
       {
-        id: 'en.reel.pov', title: 'POV: your weekend upgrade', format: 'POV / lifestyle',
+        id: 'en.reel.gm.pov', niche: 'gaming', title: 'POV: renting your first Prime account', format: 'POV / lifestyle',
+        audio: 'Trending gaming phonk or hype build-up (check IG trending audio this week)',
+        scenes: [
+          { shot: 'Phone screen: opening the Telegram bot, close-up', onscreen: 'POV: your friends are queuing without you', voice: 'You could keep grinding trust factor...' },
+          { shot: 'Screen recording: picking a duration in the bot', onscreen: 'so you rented a Prime account instead', voice: '...or you could skip straight to Prime.' },
+          { shot: 'Screen recording: balance payment confirming', onscreen: 'paid from balance. no card typing.', voice: 'One tap. Balance already topped up.' },
+          { shot: 'Login details arriving in chat, zoom on screen', onscreen: 'login delivered in seconds', voice: 'Instant delivery. No waiting around.' },
+          { shot: 'Gameplay clip / queue pop, excited reaction', onscreen: '{handle} — get in 🔥', voice: 'BlazeRent. Get in.' }
+        ],
+        caption: 'From "let me grind trust factor" to queued up in under a minute 🔥\n\nRented, not owned. That\'s the whole story.'
+      },
+      {
+        id: 'en.reel.gm.3things', niche: 'gaming', title: '3 things nobody tells you about account rental', format: 'Talking tips / value',
+        audio: 'Calm lo-fi beat, voice-forward',
+        scenes: [
+          { shot: 'You to camera, confident, mid-shot', onscreen: '3 things rental services DON\'T tell you', voice: 'Three things most account rental services hope you never ask.' },
+          { shot: 'B-roll: bot screen showing account details', onscreen: '1. Always check the trust factor first', voice: 'One: trust factor means everything. A good service shows it before you pay.' },
+          { shot: 'B-roll: countdown timer on screen', onscreen: '2. Know your exact time limit', voice: 'Two: know exactly when your session ends — and log out clean before it does.' },
+          { shot: 'B-roll: support chat replying instantly', onscreen: '3. Real support answers in minutes', voice: 'Three: if support goes quiet for hours, that\'s your red flag.' },
+          { shot: 'Back to camera, logo overlay', onscreen: 'We tell you everything upfront. {handle}', voice: 'At {name}, we just tell you all of it upfront. That\'s the difference.' }
+        ],
+        caption: 'The 3 checks that save you a ruined session — every time 💡\n\nSave this before you rent anything 💾'
+      },
+      {
+        id: 'en.reel.gm.speedrun', niche: 'gaming', title: 'Rental speedrun — under 60 seconds', format: 'Process / fast-cut',
+        audio: 'Fast-paced electronic / speedrun-style audio',
+        scenes: [
+          { shot: 'Stopwatch starting on phone screen', onscreen: 'rental speedrun. timer starts NOW ⏱️', voice: '' },
+          { shot: 'Screen recording: opening {handle} bot', onscreen: 'step 1: open the bot', voice: '' },
+          { shot: 'Screen recording: choosing duration + paying', onscreen: 'step 2: pick duration, pay from balance', voice: '' },
+          { shot: 'Login details land in chat instantly', onscreen: 'step 3: get login instantly ✓', voice: '' },
+          { shot: 'Stopwatch stops, gameplay starts', onscreen: '0:41. queued up. that\'s the process.', voice: '' }
+        ],
+        caption: 'We timed it: 41 seconds from opening the bot to queuing up ⏱️🔥\n\nTry to beat it. Open {handle} 👇'
+      },
+      {
+        id: 'en.reel.gm.mythbust', niche: 'gaming', title: '"Renting is a waste of money" — let\'s do the math', format: 'Myth-bust / hook + payoff',
+        audio: 'Dramatic pause into upbeat drop',
+        scenes: [
+          { shot: 'You to camera, skeptical face', onscreen: '"renting is a waste of money" — okay, let\'s do the math', voice: 'Everyone says renting is a waste. Let\'s actually count.' },
+          { shot: 'Numbers appearing on screen (text overlays)', onscreen: 'buying: full price + ban risk + no refunds 📉', voice: 'Buying: you pay full price upfront, and if it gets flagged, that money is just gone.' },
+          { shot: 'Cut to clean shot of the bot screen', onscreen: 'renting: pay only for hours played', voice: 'Renting: one transparent price, only for the hours you actually play.' },
+          { shot: 'You to camera, shrug + smile', onscreen: 'use it when you need it. skip the risk.', voice: 'Play when you want. Skip the risk entirely.' },
+          { shot: 'Logo card', onscreen: 'the math says {handle} 🧮', voice: 'The math says {name}.' }
+        ],
+        caption: 'We did the math so you don\'t have to 🧮\n\nSpoiler: renting wins for anyone who isn\'t playing 8 hours a day. DM us for the real numbers.'
+      },
+      {
+        id: 'en.reel.gm.top3', niche: 'gaming', title: 'Top 3 most-rented durations this month', format: 'Listicle / showcase',
+        audio: 'Upbeat trending countdown audio',
+        scenes: [
+          { shot: 'Fast zoom-in title card', onscreen: 'TOP 3 most-rented durations 🏆', voice: 'These three got booked more than everything else combined.' },
+          { shot: 'Bot screen showing the 1-hour option', onscreen: '#3 — the quick session', voice: 'Number three: perfect for a fast match with friends.' },
+          { shot: 'Bot screen showing the 1-day option', onscreen: '#2 — the weekend grinder', voice: 'Number two: a full day of uninterrupted Prime queue.' },
+          { shot: 'Bot screen showing the 1-week option', onscreen: '#1 — the tournament prep 👑', voice: 'And number one... a full week for serious ranked grinding.' },
+          { shot: 'Logo card', onscreen: 'pick yours → {handle}', voice: 'Pick your duration before the weekend does.' }
+        ],
+        caption: 'The people have voted with their bookings 🏆\n\nWhich duration would YOU pick? 1, 2 or 3 👇'
+      },
+      {
+        id: 'en.reel.pov', niche: 'car', title: 'POV: your weekend upgrade', format: 'POV / lifestyle',
         audio: 'Trending upbeat phonk or feel-good pop (check IG trending audio this week)',
         scenes: [
           { shot: 'Hand reaching for keys / door handle, slow-mo', onscreen: 'POV: you decided your weekend deserves better', voice: 'You could stay home...' },
@@ -646,7 +875,55 @@ window.BR = window.BR || {};
 
     ru: [
       {
-        id: 'ru.reel.pov', title: 'POV: апгрейд твоих выходных', format: 'POV / лайфстайл',
+        id: 'ru.reel.gm.pov', niche: 'gaming', title: 'POV: арендуешь первый Prime аккаунт', format: 'POV / лайфстайл',
+        audio: 'Трендовый гейминг-фонк или хайповый бит (проверьте тренды IG на этой неделе)',
+        scenes: [
+          { shot: 'Экран телефона: открывается Telegram-бот, крупно', onscreen: 'POV: друзья уже в очереди без тебя', voice: 'Можно продолжать копить трастфактор...' },
+          { shot: 'Запись экрана: выбор срока в боте', onscreen: 'а можно сразу взять Prime в аренду', voice: '...а можно сразу в Prime.' },
+          { shot: 'Запись экрана: оплата с баланса', onscreen: 'оплата с баланса. без ввода карты.', voice: 'Один тап. Баланс уже пополнен.' },
+          { shot: 'Данные для входа приходят в чат, зум на экран', onscreen: 'логин выдан за секунды', voice: 'Мгновенная выдача. Никакого ожидания.' },
+          { shot: 'Клип геймплея / вход в очередь, эмоция', onscreen: '{handle} — заходи 🔥', voice: '{name}. Заходи.' }
+        ],
+        caption: 'От «надо копить трастфактор» до очереди за минуту 🔥\n\nАренда, а не покупка. Вот и вся история.'
+      },
+      {
+        id: 'ru.reel.gm.3things', niche: 'gaming', title: '3 вещи, о которых молчат сервисы аренды', format: 'Советы / польза',
+        audio: 'Спокойный lo-fi, голос на первом плане',
+        scenes: [
+          { shot: 'Вы в камеру, уверенно', onscreen: '3 вещи, о которых сервисы аренды МОЛЧАТ', voice: 'Три вещи, о которых большинство сервисов надеется, что вы не спросите.' },
+          { shot: 'B-roll: экран бота с данными аккаунта', onscreen: '1. Сначала проверяйте трастфактор', voice: 'Первое: трастфактор решает всё. Надёжный сервис показывает его до оплаты.' },
+          { shot: 'B-roll: таймер обратного отсчёта на экране', onscreen: '2. Знайте точный лимит времени', voice: 'Второе: точно знайте, когда сессия закончится — и выходите заранее.' },
+          { shot: 'B-roll: поддержка отвечает мгновенно в чате', onscreen: '3. Реальная поддержка отвечает за минуты', voice: 'Третье: если поддержка молчит часами — это тревожный знак.' },
+          { shot: 'Снова в камеру, логотип', onscreen: 'Мы говорим всё сразу. {handle}', voice: 'В {name} мы просто говорим всё сразу. В этом разница.' }
+        ],
+        caption: '3 проверки, которые спасают вашу сессию — каждый раз 💡\n\nСохраните перед арендой 💾'
+      },
+      {
+        id: 'ru.reel.gm.speedrun', niche: 'gaming', title: 'Спидран аренды — меньше 60 секунд', format: 'Процесс / быстрый монтаж',
+        audio: 'Динамичный электронный / speedrun-звук',
+        scenes: [
+          { shot: 'Секундомер стартует на экране телефона', onscreen: 'спидран аренды. таймер СТАРТ ⏱️', voice: '' },
+          { shot: 'Запись экрана: открытие бота {handle}', onscreen: 'шаг 1: открыть бота', voice: '' },
+          { shot: 'Запись экрана: выбор срока и оплата', onscreen: 'шаг 2: выбрать срок, оплатить с баланса', voice: '' },
+          { shot: 'Данные для входа приходят мгновенно', onscreen: 'шаг 3: получить логин сразу ✓', voice: '' },
+          { shot: 'Секундомер останавливается, начинается игра', onscreen: '0:41. в очереди. вот и весь процесс.', voice: '' }
+        ],
+        caption: 'Засекли: 41 секунда от открытия бота до очереди ⏱️🔥\n\nПопробуйте побить рекорд. Открывайте {handle} 👇'
+      },
+      {
+        id: 'ru.reel.gm.mythbust', niche: 'gaming', title: '«Аренда — трата денег» — посчитаем?', format: 'Разрушение мифа',
+        audio: 'Драматичная пауза → бодрый дроп',
+        scenes: [
+          { shot: 'Вы в камеру, скептичное лицо', onscreen: '«аренда — трата денег». окей, посчитаем', voice: 'Все говорят, что аренда — это трата денег. Давайте честно посчитаем.' },
+          { shot: 'Цифры появляются на экране', onscreen: 'покупка: полная цена + риск бана + без возврата 📉', voice: 'Покупка: вы платите всю сумму сразу, и если аккаунт зафлагают — деньги просто пропали.' },
+          { shot: 'Чистый кадр экрана бота', onscreen: 'аренда: платите только за часы игры', voice: 'Аренда: одна прозрачная цена, только за те часы, что вы реально играете.' },
+          { shot: 'Вы в камеру, пожимаете плечами', onscreen: 'играйте когда хотите. без риска.', voice: 'Играйте, когда хотите. Риск исключён полностью.' },
+          { shot: 'Карточка с логотипом', onscreen: 'математика за {handle} 🧮', voice: 'Математика — за {name}.' }
+        ],
+        caption: 'Мы посчитали за вас 🧮\n\nСпойлер: аренда выигрывает у всех, кто не играет по 8 часов в день. Пишите в директ за точными цифрами.'
+      },
+      {
+        id: 'ru.reel.pov', niche: 'car', title: 'POV: апгрейд твоих выходных', format: 'POV / лайфстайл',
         audio: 'Трендовый фонк или лёгкий поп (проверьте тренды IG на этой неделе)',
         scenes: [
           { shot: 'Рука тянется к ключам, слоу-мо', onscreen: 'POV: ты решил, что выходные заслуживают большего', voice: 'Можно остаться дома...' },
@@ -697,7 +974,31 @@ window.BR = window.BR || {};
 
     uz: [
       {
-        id: 'uz.reel.pov', title: 'POV: dam olish kunlaringiz yangi darajada', format: 'POV / lifestyle',
+        id: 'uz.reel.gm.pov', niche: 'gaming', title: 'POV: birinchi Prime hisobingizni ijaraga olyapsiz', format: 'POV / lifestyle',
+        audio: 'Trenddagi gaming-fonk yoki hype musiqa (shu haftadagi IG trendlarini tekshiring)',
+        scenes: [
+          { shot: 'Telefon ekrani: Telegram bot ochilmoqda, yaqindan', onscreen: 'POV: do\'stlaring sensiz navbatda', voice: 'Trast-faktor yig\'ishda davom etish mumkin edi...' },
+          { shot: 'Ekran yozuvi: botda muddat tanlanmoqda', onscreen: 'yoki Prime hisobni ijaraga olish mumkin', voice: '...yoki to\'g\'ridan-to\'g\'ri Prime.' },
+          { shot: 'Ekran yozuvi: balansdan to\'lov tasdiqlanmoqda', onscreen: 'balansdan to\'lov. karta kiritmasdan.', voice: 'Bir bosish. Balans allaqachon to\'ldirilgan.' },
+          { shot: 'Kirish ma\'lumotlari chatga keladi, ekranga zoom', onscreen: 'login soniyalarda yetkazildi', voice: 'Darhol yetkazish. Kutish yo\'q.' },
+          { shot: 'O\'yin video / navbatga kirish, hayajon', onscreen: '{handle} — kir 🔥', voice: '{name}. Kir.' }
+        ],
+        caption: '«Trast-faktor yig\'ishim kerak»dan bir daqiqada navbatgacha 🔥\n\nSotib olish emas, ijara. Butun tarix shu.'
+      },
+      {
+        id: 'uz.reel.gm.speedrun', niche: 'gaming', title: 'Ijara speedrun — 60 soniyadan kam', format: 'Jarayon / tezkor',
+        audio: 'Tezkor elektron / speedrun uslubidagi ovoz',
+        scenes: [
+          { shot: 'Telefon ekranida sekundomer boshlanadi', onscreen: 'ijara speedrun. taymer START ⏱️', voice: '' },
+          { shot: 'Ekran yozuvi: {handle} boti ochilmoqda', onscreen: '1-qadam: botni oching', voice: '' },
+          { shot: 'Ekran yozuvi: muddat tanlash va to\'lov', onscreen: '2-qadam: muddatni tanlang, balansdan to\'lang', voice: '' },
+          { shot: 'Kirish ma\'lumotlari darhol keladi', onscreen: '3-qadam: loginni darhol oling ✓', voice: '' },
+          { shot: 'Sekundomer to\'xtaydi, o\'yin boshlanadi', onscreen: '0:41. navbatdasiz. jarayon shu.', voice: '' }
+        ],
+        caption: 'Vaqtni o\'lchadik: botni ochishdan navbatgacha 41 soniya ⏱️🔥\n\nRekordni urishga harakat qiling. {handle} ni oching 👇'
+      },
+      {
+        id: 'uz.reel.pov', niche: 'car', title: 'POV: dam olish kunlaringiz yangi darajada', format: 'POV / lifestyle',
         audio: 'Trenddagi quvnoq musiqa (shu haftadagi IG trendlarini tekshiring)',
         scenes: [
           { shot: 'Qo\'l kalitga uzanadi, slow-mo', onscreen: 'POV: dam olishing yaxshisiga loyiq deb qaror qilding', voice: 'Uyda qolish mumkin edi...' },
@@ -751,20 +1052,20 @@ window.BR = window.BR || {};
    * IDEA BANK (dashboard + planner, UI language = EN)
    * ===================================================================== */
   const IDEAS = [
-    { type: 'post', text: 'Showcase your most popular item with real photos and this week\'s price' },
-    { type: 'post', text: 'A "did you know" tip about deposits — builds trust fast' },
-    { type: 'post', text: 'Weekend promo: limited slots left — create urgency honestly' },
-    { type: 'carousel', text: '"5 mistakes to avoid when renting" — the highest-saving format' },
+    { type: 'post', text: 'Showcase a rental duration with a clear price — instant-delivery angle sells' },
+    { type: 'post', text: 'A "did you know" tip about trust factor — builds trust fast' },
+    { type: 'post', text: 'Weekend promo: limited accounts free right now — create urgency honestly' },
+    { type: 'carousel', text: '"5 mistakes to avoid when renting an account" — the highest-saving format' },
     { type: 'carousel', text: '"What\'s included in the price" — kills the #1 customer objection' },
     { type: 'carousel', text: 'FAQ carousel — answer the 4 questions your DMs keep getting' },
-    { type: 'reel', text: 'POV reel: the moment a customer gets the keys 🔑' },
-    { type: 'reel', text: 'Booking speedrun — show how fast your process really is' },
-    { type: 'reel', text: 'Behind the scenes: how you prep before every handover' },
-    { type: 'post', text: 'Customer story: one sentence review + the item they rented' },
-    { type: 'reel', text: '"Let\'s do the math" — renting vs owning cost breakdown' },
+    { type: 'reel', text: 'POV reel: the moment login details land in the chat 🔑' },
+    { type: 'reel', text: 'Rental speedrun — show how fast your process really is' },
+    { type: 'reel', text: 'Behind the scenes: how support actually responds 24/7' },
+    { type: 'post', text: 'Customer story: one sentence review + the duration they rented' },
+    { type: 'reel', text: '"Let\'s do the math" — renting vs buying cost breakdown' },
     { type: 'carousel', text: '"How it works in 3 steps" — pin this one to your profile' },
-    { type: 'post', text: 'Poll your audience: mountains or coast this weekend?' },
-    { type: 'reel', text: 'Top 3 most-booked items this month — countdown format' }
+    { type: 'post', text: 'Poll your audience: ranked grind or casual this weekend?' },
+    { type: 'reel', text: 'Top 3 most-rented durations this month — countdown format' }
   ];
 
   const WEEK_TEMPLATE = [
@@ -795,7 +1096,7 @@ window.BR = window.BR || {};
       name: b.name || 'BlazeRent',
       city: b.city || (lang === 'ru' ? 'вашем городе' : lang === 'uz' ? 'shahringiz' : 'your city'),
       handle: b.handle || '@blazerent',
-      phone: b.phone || (lang === 'ru' ? 'нам' : lang === 'uz' ? 'bizga' : 'us'),
+      phone: b.phone || (lang === 'ru' ? 'в Telegram' : lang === 'uz' ? 'Telegram' : 'our Telegram'),
       one: nw.one, many: nw.many, ride: nw.ride, verb: nw.verb,
       subject: extra.subject || fillSubject(lang, nw),
       offer: extra.offer || ''
@@ -852,8 +1153,16 @@ window.BR = window.BR || {};
   }
 
   /** Ready-made carousel packs for a language, sorted by taste score. */
+  function nichePool(packs) {
+    const niche = BR.store.brand.niche;
+    const matched = packs.filter(p => (p.niche || 'car') === niche);
+    if (matched.length) return matched;
+    const carFallback = packs.filter(p => (p.niche || 'car') === 'car');
+    return carFallback.length ? carFallback : packs;
+  }
+
   function getCarouselPacks(lang) {
-    const packs = CAROUSELS[lang] || CAROUSELS.en;
+    const packs = nichePool(CAROUSELS[lang] || CAROUSELS.en);
     return [...packs].sort((a, b) => BR.store.tasteScore(b.id) - BR.store.tasteScore(a.id));
   }
 
@@ -907,7 +1216,7 @@ window.BR = window.BR || {};
 
   /** Reel packs for a language, taste-sorted. */
   function getReelPacks(lang) {
-    const packs = REELS[lang] || REELS.en;
+    const packs = nichePool(REELS[lang] || REELS.en);
     return [...packs].sort((a, b) => BR.store.tasteScore(b.id) - BR.store.tasteScore(a.id));
   }
 

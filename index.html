@@ -100,10 +100,10 @@
             <div class="chip-row" id="postLangChips"></div>
             <label>Tone</label>
             <div class="chip-row" id="postToneChips"></div>
-            <label>Subject <span class="hint">(what's it about — e.g. "BMW X5", "weekend deal")</span></label>
-            <input type="text" id="postSubject" placeholder="e.g. BMW X5 2023">
+            <label>Subject <span class="hint">(what's it about — e.g. "24h Prime rental", "weekend deal")</span></label>
+            <input type="text" id="postSubject" placeholder="e.g. 24-hour CS2 Prime account">
             <label>Offer / detail <span class="hint">(optional — price, discount, condition)</span></label>
-            <input type="text" id="postOffer" placeholder="e.g. from $49/day · free delivery">
+            <input type="text" id="postOffer" placeholder="e.g. from 5,000 UZS/hour · instant delivery">
             <label>Photo <span class="hint">(optional — used as the image background)</span></label>
             <input type="file" id="postPhoto" accept="image/*">
             <label>Format</label>
@@ -161,11 +161,11 @@
               <label>Title (cover slide)</label>
               <input type="text" id="carCustomTitle" placeholder="e.g. 5 reasons to rent with us">
               <label>Your points <span class="hint">(one per line — "Title | detail" or just a title)</span></label>
-              <textarea id="carCustomPoints" rows="7" placeholder="No deposit | Drive away in 10 minutes&#10;Full insurance included&#10;24/7 support | We answer in 5 min"></textarea>
+              <textarea id="carCustomPoints" rows="7" placeholder="Instant delivery | Login in under 2 minutes&#10;Secure balance system&#10;24/7 support | We answer in 5 min"></textarea>
             </div>
             <div id="carAIWrap" class="hidden">
               <label>Topic for AI</label>
-              <input type="text" id="carAITopic" placeholder="e.g. 5 mistakes people make when renting a car">
+              <input type="text" id="carAITopic" placeholder="e.g. 5 mistakes people make when renting a gaming account">
               <p class="hint block">Uses your Claude API key from Settings.</p>
             </div>
             <button class="btn big" id="carGenerate">⚡ Build carousel</button>
@@ -228,7 +228,7 @@
             </div>
             <div id="reelAIWrap" class="hidden">
               <label>Topic for AI</label>
-              <input type="text" id="reelAITopic" placeholder="e.g. POV: you rented a car for the weekend">
+              <input type="text" id="reelAITopic" placeholder="e.g. POV: you just rented your first Prime account">
               <p class="hint block">Uses your Claude API key from Settings.</p>
             </div>
             <button class="btn big" id="reelGenerate">⚡ Generate reel script</button>
@@ -310,15 +310,16 @@
           <label>Brand name</label><input id="setName" type="text">
           <label>Business type</label>
           <select id="setNiche">
+            <option value="gaming">Gaming account rental (CS2 Prime)</option>
             <option value="car">Car rental</option>
             <option value="apartment">Apartment / property rental</option>
             <option value="equipment">Equipment rental</option>
             <option value="generic">Other rental business</option>
           </select>
-          <label>Tagline</label><input id="setTagline" type="text" placeholder="e.g. Drive the city. Own the moment.">
+          <label>Tagline</label><input id="setTagline" type="text" placeholder="e.g. Prime access in seconds.">
           <label>City</label><input id="setCity" type="text" placeholder="e.g. Tashkent">
-          <label>Instagram handle</label><input id="setHandle" type="text" placeholder="@blazerent">
-          <label>Phone / contact</label><input id="setPhone" type="text" placeholder="+998 ...">
+          <label>Telegram bot / Instagram handle</label><input id="setHandle" type="text" placeholder="@blazerent_bot">
+          <label>Phone / other contact</label><input id="setPhone" type="text" placeholder="+998 ... or t.me/blazerent_bot">
         </div>
         <div class="card">
           <h3>Design system</h3>
@@ -346,7 +347,7 @@
           <input type="range" id="setEmoji" min="0" max="3" step="1">
           <div class="hint" id="setEmojiLabel"></div>
           <label>Your hashtag bank <span class="hint">(always appended)</span></label>
-          <textarea id="setHashtags" rows="3" placeholder="#blazerent #rentacar"></textarea>
+          <textarea id="setHashtags" rows="3" placeholder="#blazerent #cs2 #primeaccount"></textarea>
         </div>
         <div class="card">
           <h3>AI power-up <span class="hint">(optional)</span></h3>
@@ -380,18 +381,19 @@
       <label>Brand name</label><input id="obName" type="text" value="BlazeRent">
       <label>What do you rent out?</label>
       <select id="obNiche">
+        <option value="gaming">Gaming accounts (CS2 Prime)</option>
         <option value="car">Cars</option>
         <option value="apartment">Apartments / property</option>
         <option value="equipment">Equipment</option>
         <option value="generic">Something else</option>
       </select>
       <label>City</label><input id="obCity" type="text" placeholder="e.g. Tashkent">
-      <label>Instagram handle</label><input id="obHandle" type="text" placeholder="@blazerent">
+      <label>Telegram bot / Instagram handle</label><input id="obHandle" type="text" placeholder="@blazerent_bot">
       <button class="btn big" id="obNext1">Next →</button>
     </div>
     <div id="obStep2" class="hidden">
       <h2>Your look &amp; voice</h2>
-      <label>Primary color</label><input id="obColor" type="color" value="#FF5A1F">
+      <label>Primary color</label><input id="obColor" type="color" value="#2447D6">
       <label>Visual style</label>
       <div class="chip-row" id="obStyleChips"></div>
       <label>Tone of voice</label>

@@ -11,16 +11,16 @@ window.BR = window.BR || {};
     onboarded: false,
     brand: {
       name: 'BlazeRent',
-      niche: 'car',            // car | apartment | equipment | generic
+      niche: 'gaming',          // gaming | car | apartment | equipment | generic
       tagline: '',
       city: '',
-      handle: '@blazerent',
+      handle: '@blazerent_bot',
       phone: '',
       colors: {
-        primary: '#FF5A1F',
-        dark: '#16121C',
-        accent: '#FFC24B',
-        light: '#FFF6EE'
+        primary: '#2447D6',
+        dark: '#04081C',
+        accent: '#FFFFFF',
+        light: '#EEF2FF'
       },
       logo: null,              // dataURL
       font: 'bold',            // bold | clean | serif | mono

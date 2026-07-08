@@ -15,7 +15,7 @@ window.BR = window.BR || {};
 
   function brandBrief() {
     const b = BR.store.brand;
-    const nicheNames = { car: 'car rental', apartment: 'apartment / short-term property rental', equipment: 'equipment rental', generic: 'rental business' };
+    const nicheNames = { gaming: 'CS2 Prime gaming account rental (via Telegram bot)', car: 'car rental', apartment: 'apartment / short-term property rental', equipment: 'equipment rental', generic: 'rental business' };
     const langNames = { en: 'English', ru: 'Russian', uz: 'Uzbek' };
     return [
       `Brand: ${b.name}`,
